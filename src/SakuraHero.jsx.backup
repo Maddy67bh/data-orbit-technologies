@@ -1,0 +1,127 @@
+import { useState } from "react";
+import "./SakuraHero.css";
+
+const IMAGE_URL =
+  "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2400&q=90";
+
+export default function SakuraHero() {
+  const [imageFailed, setImageFailed] = useState(false);
+
+  return (
+    <main className="sakura-page">
+      <section className="sakura-hero">
+        {!imageFailed && (
+          <img
+            className="sakura-hero-image"
+            src={IMAGE_URL}
+            alt="Japanese landscape in cinematic natural light"
+            fetchPriority="high"
+            onError={() => setImageFailed(true)}
+          />
+        )}
+
+        <div className="sakura-overlay" aria-hidden="true" />
+
+        <header className="sakura-nav">
+          <a className="sakura-brand" href="#home" aria-label="Data Orbit Technologies home">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <circle cx="24" cy="24" r="13" />
+              <ellipse
+                cx="24"
+                cy="24"
+                rx="22"
+                ry="8"
+                transform="rotate(-35 24 24)"
+              />
+              <circle className="orbit-dot" cx="38" cy="11" r="3" />
+            </svg>
+
+            <span className="sakura-brand-text">
+              <strong>DATA ORBIT</strong>
+              <small>TECHNOLOGIES</small>
+            </span>
+          </a>
+
+          <nav className="sakura-nav-links" aria-label="Main navigation">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a className="sakura-contact" href="mailto:hello@dataorbit.tech">
+              Let's Talk <span>↗</span>
+            </a>
+          </nav>
+        </header>
+
+        <div className="sakura-content" id="home">
+          <p className="sakura-eyebrow">
+            <span className="sakura-eyebrow-line" />
+            INTELLIGENCE · INNOVATION · IMPACT
+          </p>
+
+          <h1>
+            A new orbit
+            <br />
+            for <em>what's possible.</em>
+          </h1>
+
+          <p className="sakura-description">
+            We bring technology, thoughtful design and intelligent
+            solutions together to help businesses move forward.
+          </p>
+
+          <div className="sakura-actions">
+            <a className="sakura-primary-button" href="mailto:hello@dataorbit.tech">
+              EXPLORE POSSIBILITIES <span>↗</span>
+            </a>
+
+            <a className="sakura-text-link" href="#services">
+              Discover our approach <span>↓</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="sakura-side-note" aria-hidden="true">
+          <span className="sakura-side-line" />
+          A DIFFERENT POINT OF VIEW
+        </div>
+
+        <footer className="sakura-footer">
+          <span>DATA ORBIT TECHNOLOGIES</span>
+          <span className="sakura-footer-center">
+            BUILT AROUND WHAT'S NEXT
+          </span>
+          <a href="#services">DISCOVER MORE ↓</a>
+        </footer>
+      </section>
+
+      <section className="sakura-next-section" id="about">
+        <p className="sakura-section-label">BEYOND THE ORDINARY</p>
+        <h2>Technology with purpose.</h2>
+        <p>
+          From data and AI to digital experiences, create solutions
+          that bring clarity to complexity.
+        </p>
+
+        <div className="sakura-services" id="services">
+          <article>
+            <span>01</span>
+            <h3>Data & Analytics</h3>
+            <p>Turn information into clearer business decisions.</p>
+          </article>
+
+          <article>
+            <span>02</span>
+            <h3>Artificial Intelligence</h3>
+            <p>Explore intelligent solutions to real-world challenges.</p>
+          </article>
+
+          <article>
+            <span>03</span>
+            <h3>Digital Experiences</h3>
+            <p>Build thoughtful, modern digital experiences.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  );
+}

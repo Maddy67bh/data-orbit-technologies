@@ -1,0 +1,304 @@
+import { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import "./valley.css";
+
+export default function Valley() {
+  const mountRef = useRef(null);
+  const [night, setNight] = useState(false);
+
+  useEffect(() => {
+    const host = mountRef.current;
+    if (!host) return;
+
+    let renderer;
+    let frame = 0;
+    let observer;
+    let disposed = false;
+
+    try {
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(night ? "#071b28" : "#e9c6b5");
+      scene.fog = new THREE.Fog(scene.background, 22, 90);
+
+      const camera = new THREE.PerspectiveCamera(
+        48, host.clientWidth / Math.max(host.clientHeight, 1), 0.1, 150
+      );
+      camera.position.set(0, 8, 23);
+      camera.lookAt(0, 3, -3);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+      renderer.setSize(host.clientWidth, host.clientHeight);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      host.appendChild(renderer.domElement);
+
+      scene.add(new THREE.HemisphereLight(night ? 0x6b9bb5 : 0xffe8d6, 0x243b32, 2));
+
+      const sun = new THREE.DirectionalLight(night ? 0x9dbce7 : 0xffd2a0, night ? 1.5 : 3);
+      sun.position.set(-8, 15, 7);
+      scene.add(sun);
+
+      const groundMat = new THREE.MeshStandardMaterial({
+        color: night ? 0x183a39 : 0x718d72, roughness: 1
+      });
+      const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = -0.6;
+      ground.position.z = -12;
+      scene.add(ground);
+
+      function mountain(x, z, height, radius, color) {
+        const mesh = new THREE.Mesh(
+          new THREE.ConeGeometry(radius, height, 5, 1),
+          new THREE.MeshStandardMaterial({ color, roughness: 1, flatShading: true })
+        );
+        mesh.position.set(x, height / 2 - 0.4, z);
+        mesh.rotation.y = x * 0.08;
+        scene.add(mesh);
+
+        if (night && height > 9) {
+          const cap = new THREE.Mesh(
+            new THREE.ConeGeometry(radius * 0.23, height * 0.24, 5),
+            new THREE.MeshStandardMaterial({ color: 0xc9d8d7, roughness: 1, flatShading: true })
+          );
+          cap.position.set(x, height * 0.84, z);
+          scene.add(cap);
+        }
+      }
+
+      mountain(-19, -18, 18, 12, night ? 0x263e51 : 0x8a9b99);
+      mountain(-10, -22, 15, 10, night ? 0x304d5a : 0xa7b4a7);
+      mountain(1, -23, 20, 13, night ? 0x20394c : 0x899d98);
+      mountain(14, -21, 17, 11, night ? 0x294353 : 0xa5b0a1);
+      mountain(23, -17, 13, 9, night ? 0x263c4b : 0x83978a);
+      mountain(-25, -5, 11, 9, night ? 0x1a3d3c : 0x66856c);
+      mountain(25, -6, 12, 10, night ? 0x1a3d3c : 0x69866b);
+
+      const riverMat = new THREE.MeshStandardMaterial({
+        color: night ? 0x236d80 : 0x5eafb5,
+        roughness: 0.2, metalness: 0.2,
+        transparent: true, opacity: 0.93
+      });
+      const riverShape = new THREE.Shape();
+      riverShape.moveTo(-5, 10);
+      riverShape.bezierCurveTo(-1, 5, -7, 0, -3, -4);
+      riverShape.bezierCurveTo(0, -9, -3, -13, 2, -22);
+      riverShape.lineTo(12, -22);
+      riverShape.bezierCurveTo(6, -13, 8, -8, 4, -3);
+      riverShape.bezierCurveTo(0, 2, 7, 6, 6, 10);
+      riverShape.closePath();
+
+      const river = new THREE.Mesh(
+        new THREE.ShapeGeometry(riverShape, 24), riverMat
+      );
+      river.rotation.x = -Math.PI / 2;
+      river.position.set(0, -0.48, -5);
+      scene.add(river);
+
+      const bankMat = new THREE.MeshStandardMaterial({
+        color: night ? 0x1c3934 : 0x577a59, roughness: 1
+      });
+
+      function tree(x, z, scale, pink = true) {
+        const group = new THREE.Group();
+        group.position.set(x, -0.3, z);
+        group.scale.setScalar(scale);
+
+        const trunk = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.09, 0.16, 2.4, 7),
+          new THREE.MeshStandardMaterial({ color: 0x624739, roughness: 1 })
+        );
+        trunk.position.y = 1.2;
+        group.add(trunk);
+
+        for (let i = 0; i < 5; i++) {
+          const blossom = new THREE.Mesh(
+            new THREE.IcosahedronGeometry(0.65 + Math.random() * 0.25, 1),
+            new THREE.MeshStandardMaterial({
+              color: pink
+                ? (night ? 0x9b668c : [0xe9a9bb, 0xf1c1c8, 0xd991ae][i % 3])
+                : (night ? 0x244c3a : 0x507d51),
+              roughness: 0.95, flatShading: true
+            })
+          );
+          blossom.position.set(
+            Math.sin(i * 2.4) * 0.55,
+            2.25 + (i % 3) * 0.32,
+            Math.cos(i * 2.1) * 0.5
+          );
+          blossom.scale.set(1, 0.85, 1);
+          group.add(blossom);
+        }
+        scene.add(group);
+        return group;
+      }
+
+      const trees = [];
+      for (let i = 0; i < 30; i++) {
+        const side = i % 2 === 0 ? -1 : 1;
+        const x = side * (5 + Math.random() * 13);
+        const z = 4 - Math.random() * 30;
+        trees.push(tree(x, z, 0.65 + Math.random() * 0.8, i % 4 !== 0));
+      }
+
+      // Small traditional riverside temple
+      const temple = new THREE.Group();
+      const stone = new THREE.MeshStandardMaterial({
+        color: night ? 0x8d9b98 : 0xe4d4b9, roughness: 0.9
+      });
+      const roofMat = new THREE.MeshStandardMaterial({
+        color: night ? 0x7d6255 : 0x9d5140, roughness: 0.85
+      });
+
+      const base = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.35, 2.6), stone);
+      base.position.y = 0.18;
+      temple.add(base);
+
+      const hall = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.7, 1.9), stone);
+      hall.position.y = 1.15;
+      temple.add(hall);
+
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(2, 1.15, 4), roofMat);
+      roof.position.y = 2.65;
+      roof.rotation.y = Math.PI / 4;
+      temple.add(roof);
+
+      const doorway = new THREE.Mesh(
+        new THREE.BoxGeometry(0.55, 1.05, 0.08),
+        new THREE.MeshStandardMaterial({ color: 0x45372e })
+      );
+      doorway.position.set(0, 0.7, 0.97);
+      temple.add(doorway);
+      temple.position.set(-9, -0.3, -7);
+      temple.scale.setScalar(1.25);
+      scene.add(temple);
+
+      // Wooden boat floating near the foreground
+      const boat = new THREE.Group();
+      const hull = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.5, 2.4, 4, 8),
+        new THREE.MeshStandardMaterial({ color: 0x75452f, roughness: 0.75 })
+      );
+      hull.rotation.z = Math.PI / 2;
+      hull.scale.set(0.6, 0.45, 1);
+      boat.add(hull);
+
+      const seat = new THREE.Mesh(
+        new THREE.BoxGeometry(1.4, 0.12, 0.35),
+        new THREE.MeshStandardMaterial({ color: 0xc69b68 })
+      );
+      seat.position.y = 0.12;
+      boat.add(seat);
+      boat.position.set(0.2, -0.15, 6);
+      boat.rotation.y = -0.18;
+      scene.add(boat);
+
+      const petals = new THREE.Group();
+      const petalMat = new THREE.MeshStandardMaterial({
+        color: 0xf2b5ce, side: THREE.DoubleSide, roughness: 0.8
+      });
+      const petalGeo = new THREE.PlaneGeometry(0.12, 0.17);
+      const petalData = [];
+      for (let i = 0; i < 150; i++) {
+        const p = new THREE.Mesh(petalGeo, petalMat);
+        p.position.set((Math.random() - 0.5) * 34, Math.random() * 12, -24 + Math.random() * 36);
+        p.rotation.set(Math.random() * 3, Math.random() * 3, Math.random() * 3);
+        petals.add(p);
+        petalData.push({
+          mesh: p, speed: 0.006 + Math.random() * 0.016,
+          sway: Math.random() * 3, baseX: p.position.x
+        });
+      }
+      scene.add(petals);
+
+      const stars = new THREE.Group();
+      if (night) {
+        const starGeo = new THREE.BufferGeometry();
+        const coords = [];
+        for (let i = 0; i < 450; i++) {
+          coords.push((Math.random() - 0.5) * 90, 8 + Math.random() * 30, -35 + Math.random() * 35);
+        }
+        starGeo.setAttribute("position", new THREE.Float32BufferAttribute(coords, 3));
+        stars.add(new THREE.Points(
+          starGeo,
+          new THREE.PointsMaterial({ color: 0xfff2d3, size: 0.12 })
+        ));
+      }
+      scene.add(stars);
+
+      let pointerX = 0;
+      const onPointer = (event) => {
+        const rect = host.getBoundingClientRect();
+        pointerX = ((event.clientX - rect.left) / rect.width - 0.5) * 1.1;
+      };
+      host.addEventListener("pointermove", onPointer);
+
+      const resize = () => {
+        if (!host.clientWidth || !host.clientHeight) return;
+        camera.aspect = host.clientWidth / host.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(host.clientWidth, host.clientHeight);
+      };
+      observer = new ResizeObserver(resize);
+      observer.observe(host);
+
+      const clock = new THREE.Clock();
+      function animate() {
+        if (disposed) return;
+        frame = requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+
+        boat.position.y = -0.15 + Math.sin(t * 1.1) * 0.08;
+        boat.rotation.z = Math.sin(t * 0.7) * 0.025;
+        boat.position.x = 0.2 + Math.sin(t * 0.15) * 0.55;
+
+        petalData.forEach(({ mesh, speed, sway, baseX }) => {
+          mesh.position.y -= speed;
+          mesh.position.x = baseX + Math.sin(t + sway) * 0.45;
+          mesh.rotation.z += 0.003;
+          if (mesh.position.y < -0.5) mesh.position.y = 10 + Math.random() * 5;
+        });
+
+        camera.position.x += (pointerX * 2 - camera.position.x * 0.035) * 0.018;
+        camera.lookAt(0, 3, -3);
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      return () => {
+        disposed = true;
+        cancelAnimationFrame(frame);
+        observer?.disconnect();
+        host.removeEventListener("pointermove", onPointer);
+        scene.traverse((obj) => {
+          obj.geometry?.dispose?.();
+          if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+          else obj.material?.dispose?.();
+        });
+        renderer.dispose();
+        renderer.domElement.remove();
+      };
+    } catch (error) {
+      console.error("Sakura Valley scene error:", error);
+      host.innerHTML = '<p style="padding:24px;color:white">3D scene could not start. Check browser WebGL support.</p>';
+    }
+  }, [night]);
+
+  return (
+    <section className="sakura-valley" aria-label="Interactive Sakura River Valley">
+      <div className="valley-canvas" ref={mountRef} />
+      <div className="valley-shade" />
+      <div className="valley-copy">
+        <span className="valley-eyebrow">A LIVING 3D LANDSCAPE</span>
+        <h2>Where nature<br /><em>meets stillness.</em></h2>
+        <p>Explore a quiet river valley, framed by misty mountains and blossoms.</p>
+        <button className="valley-toggle" onClick={() => setNight(v => !v)}>
+          {night ? "☀ Switch to daylight" : "☾ Enter night mode"}
+        </button>
+        <span className="valley-caption">INTERACTIVE WORLD · THREE.JS</span>
+      </div>
+    </section>
+  );
+}

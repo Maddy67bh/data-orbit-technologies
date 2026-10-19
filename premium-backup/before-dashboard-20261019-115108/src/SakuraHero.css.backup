@@ -1,0 +1,429 @@
+.sakura-page {
+  margin: 0;
+  color: #f8f1e5;
+  background: #10291f;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.sakura-page * {
+  box-sizing: border-box;
+}
+
+.sakura-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 760px;
+  min-height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 70% 40%, #496b50 0%, transparent 45%),
+    linear-gradient(130deg, #122d21, #284837 60%, #172d24);
+}
+
+.sakura-hero-image {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 48%;
+  animation: sakura-image-enter 1.6s ease-out both;
+}
+
+.sakura-overlay {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 25, 18, .88) 0%,
+      rgba(8, 28, 20, .68) 38%,
+      rgba(8, 27, 20, .28) 75%,
+      rgba(8, 27, 20, .20) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(7, 23, 17, .68) 0%,
+      transparent 38%,
+      rgba(7, 23, 17, .24) 100%
+    );
+}
+
+.sakura-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 24px 7%;
+  border-bottom: 1px solid rgba(236, 214, 174, .22);
+}
+
+.sakura-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff4df;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.sakura-brand svg {
+  width: 44px;
+  height: 44px;
+  fill: none;
+  stroke: #dfbf7e;
+  stroke-width: 1.35;
+}
+
+.sakura-brand .orbit-dot {
+  fill: #e8c786;
+  stroke: none;
+}
+
+.sakura-brand-text strong {
+  display: block;
+  font-size: 14px;
+  letter-spacing: 2.1px;
+}
+
+.sakura-brand-text small {
+  display: block;
+  margin-top: 5px;
+  color: #e2c38b;
+  font-size: 9px;
+  letter-spacing: 3.2px;
+}
+
+.sakura-nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.6vw, 38px);
+}
+
+.sakura-nav-links a {
+  color: #f8f1e5;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color .25s ease;
+}
+
+.sakura-nav-links a:hover,
+.sakura-text-link:hover {
+  color: #e9c68d;
+}
+
+.sakura-nav-links .sakura-contact {
+  padding: 12px 17px;
+  border: 1px solid rgba(232, 199, 134, .75);
+}
+
+.sakura-contact span {
+  margin-left: 8px;
+  color: #e9c68d;
+}
+
+.sakura-content {
+  width: min(900px, 88%);
+  margin: auto 0;
+  padding: 100px 0 135px 9%;
+  animation: sakura-content-enter 1s .15s ease both;
+}
+
+.sakura-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e7c88e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+}
+
+.sakura-eyebrow-line {
+  width: 32px;
+  height: 1px;
+  background: #e7c88e;
+}
+
+.sakura-content h1 {
+  margin: 27px 0;
+  max-width: 880px;
+  color: #fff8ed;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(50px, 7.6vw, 100px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -2.8px;
+}
+
+.sakura-content h1 em {
+  color: #e9c68d;
+  font-weight: 400;
+}
+
+.sakura-description {
+  max-width: 490px;
+  color: rgba(255, 248, 237, .85);
+  font-size: 15px;
+  line-height: 1.95;
+}
+
+.sakura-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 27px;
+  margin-top: 33px;
+}
+
+.sakura-primary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  padding: 17px 21px;
+  color: #172d21;
+  background: #dfc18a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-decoration: none;
+  transition: transform .25s ease, background .25s ease;
+}
+
+.sakura-primary-button:hover {
+  background: #f3dca9;
+  transform: translateY(-3px);
+}
+
+.sakura-primary-button span {
+  font-size: 16px;
+}
+
+.sakura-text-link {
+  color: #fff3df;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color .25s ease;
+}
+
+.sakura-text-link span {
+  margin-left: 7px;
+  color: #e9c68d;
+}
+
+.sakura-side-note {
+  position: absolute;
+  top: 50%;
+  right: 3%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 244, 223, .82);
+  font-size: 9px;
+  letter-spacing: 2px;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+}
+
+.sakura-side-line {
+  width: 1px;
+  height: 48px;
+  background: #dfbf7e;
+}
+
+.sakura-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 20px 7%;
+  border-top: 1px solid rgba(236, 214, 174, .22);
+  color: rgba(255, 244, 223, .78);
+  font-size: 9px;
+  letter-spacing: 1.8px;
+}
+
+.sakura-footer a {
+  color: #e9c68d;
+  text-decoration: none;
+}
+
+.sakura-next-section {
+  padding: 100px 9%;
+  color: #f6efdf;
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(73, 105, 75, .24), transparent 50%),
+    #10291f;
+}
+
+.sakura-section-label {
+  color: #d9b779;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.sakura-next-section h2 {
+  margin: 18px 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 400;
+}
+
+.sakura-next-section > p:not(.sakura-section-label) {
+  max-width: 620px;
+  color: #d2d8ce;
+  line-height: 1.8;
+}
+
+.sakura-services {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.sakura-services article {
+  padding: 28px;
+  border: 1px solid rgba(223, 193, 138, .25);
+  background: rgba(255, 255, 255, .025);
+  transition: transform .25s ease, border-color .25s ease;
+}
+
+.sakura-services article:hover {
+  transform: translateY(-5px);
+  border-color: rgba(223, 193, 138, .7);
+}
+
+.sakura-services article > span {
+  color: #dfbf7e;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.sakura-services h3 {
+  margin-top: 25px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 400;
+}
+
+.sakura-services article p {
+  color: #cbd5ca;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+@keyframes sakura-image-enter {
+  from {
+    transform: scale(1.055);
+    opacity: .65;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sakura-content-enter {
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 760px) {
+  .sakura-nav {
+    padding: 20px 6%;
+  }
+
+  .sakura-nav-links {
+    gap: 14px;
+  }
+
+  .sakura-nav-links > a:not(.sakura-contact) {
+    display: none;
+  }
+
+  .sakura-content {
+    width: 92%;
+    padding: 90px 0 115px 7%;
+  }
+
+  .sakura-content h1 {
+    font-size: clamp(48px, 10vw, 75px);
+    letter-spacing: -1.5px;
+  }
+
+  .sakura-side-note {
+    display: none;
+  }
+
+  .sakura-services {
+    grid-template-columns: 1fr;
+  }
+
+  .sakura-next-section {
+    padding: 75px 7%;
+  }
+}
+
+@media (max-width: 430px) {
+  .sakura-brand svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .sakura-brand-text strong {
+    font-size: 12px;
+  }
+
+  .sakura-brand-text small {
+    font-size: 8px;
+    letter-spacing: 2.4px;
+  }
+
+  .sakura-nav-links .sakura-contact {
+    padding: 10px;
+    font-size: 11px;
+  }
+
+  .sakura-eyebrow {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .sakura-content h1 {
+    font-size: 48px;
+  }
+
+  .sakura-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sakura-footer-center {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sakura-hero-image,
+  .sakura-content {
+    animation: none;
+  }
+
+  .sakura-primary-button,
+  .sakura-services article {
+    transition: none;
+  }
+}

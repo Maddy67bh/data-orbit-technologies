@@ -1,0 +1,19 @@
+.vercel
+.env*
+
+.env
+
+.env
+
+# Data Orbit secret and generated files
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.vercel/
+data/conversations.json
+data/
+backup-ai-admin-*/

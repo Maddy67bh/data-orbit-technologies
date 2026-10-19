@@ -1,0 +1,72 @@
+import { useState } from "react";
+import "./valley.css";
+
+export default function Valley() {
+  const [night, setNight] = useState(false);
+
+  return (
+    <section className={`sv-experience ${night ? "sv-night" : ""}`}>
+      <div className="sv-photo" />
+      <div className="sv-grain" />
+      <div className="sv-vignette" />
+
+      <header className="sv-topbar">
+        <div className="sv-brand">
+          <span className="sv-brand-mark">D<span>·</span>O</span>
+          <span className="sv-brand-label">DATA ORBIT <i>EXPERIENCES</i></span>
+        </div>
+        <span className="sv-edition">DIGITAL WORLDS — 001</span>
+      </header>
+
+      <div className="sv-content">
+        <div className="sv-kicker">
+          <span className="sv-live-dot" />
+          AN IMMERSIVE NATURE STUDY
+        </div>
+
+        <h2>
+          A quieter<br />
+          kind of <em>wonder.</em>
+        </h2>
+
+        <p className="sv-description">
+          Beyond the noise, a river winds through the mountains.
+          Blossom, water and light — in their own time.
+        </p>
+
+        <div className="sv-actions">
+          <button className="sv-primary" onClick={() => setNight(v => !v)}>
+            <span>{night ? "Return to daylight" : "Experience after dark"}</span>
+            <span className="sv-arrow">{night ? "☼" : "↗"}</span>
+          </button>
+          <span className="sv-duration">TAKE A MOMENT · 01:24</span>
+        </div>
+      </div>
+
+      <div className="sv-bottom">
+        <div className="sv-location">
+          <span className="sv-location-icon">⌁</span>
+          <span><b>SAKURA RIVER VALLEY</b><small>A STUDY IN STILLNESS</small></span>
+        </div>
+        <div className="sv-scroll">
+          <span>SCROLL TO EXPLORE</span><i />
+        </div>
+        <div className="sv-index">01 <span>/</span> 04</div>
+      </div>
+
+      <div className="sv-orbit sv-orbit-one" />
+      <div className="sv-orbit sv-orbit-two" />
+
+      <div className="sv-petals" aria-hidden="true">
+        {Array.from({ length: 16 }, (_, i) => (
+          <span key={i} style={{
+            "--i": i,
+            "--x": `${(i * 37) % 100}%`,
+            "--delay": `${(i % 8) * -1.7}s`,
+            "--duration": `${9 + (i % 6) * 2}s`
+          }} />
+        ))}
+      </div>
+    </section>
+  );
+}

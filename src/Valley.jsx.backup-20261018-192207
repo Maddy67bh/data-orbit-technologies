@@ -1,0 +1,72 @@
+import { useState } from "react";
+import "./valley.css";
+
+export default function Valley() {
+  const [night, setNight] = useState(false);
+
+  return (
+    <section className={`nature-world ${night ? "nature-night" : ""}`}>
+      <div className="nature-image" />
+      <div className="nature-atmosphere" />
+      <div className="nature-grain" />
+
+      <div className="nature-top">
+        <div className="nature-brand">
+          <span className="nature-mark">N<span>·</span></span>
+          <span>
+            <b>DATA ORBIT</b>
+            <small>IMMERSIVE EXPERIENCES</small>
+          </span>
+        </div>
+        <span className="nature-edition">FIELD NOTES &nbsp; / &nbsp; 001</span>
+      </div>
+
+      <main className="nature-copy">
+        <div className="nature-eyebrow">
+          <span className="nature-dot" />
+          IMMERSIVE NATURE STUDY
+        </div>
+
+        <h2>
+          A quieter<br />
+          kind of <em>wonder.</em>
+        </h2>
+
+        <p>
+          Beyond the noise, a river winds through the mountains.
+          Blossom, water and light — in their own time.
+        </p>
+
+        <div className="nature-controls">
+          <button onClick={() => setNight(v => !v)} className="nature-button">
+            {night ? "Return to daylight" : "Experience after dark"}
+            <span>{night ? "☼" : "↗"}</span>
+          </button>
+          <span className="nature-note">BREATHE IN. SLOW DOWN.</span>
+        </div>
+      </main>
+
+      <div className="nature-bottom">
+        <div className="nature-place">
+          <span className="nature-symbol">⌁</span>
+          <span>
+            <b>SAKURA RIVER VALLEY</b>
+            <small>A STUDY IN STILLNESS</small>
+          </span>
+        </div>
+        <div className="nature-scroll"><span>SCROLL TO EXPLORE</span><i /></div>
+        <span className="nature-number">01 <i>/ 04</i></span>
+      </div>
+
+      <div className="nature-petals" aria-hidden="true">
+        {Array.from({ length: 18 }, (_, i) => (
+          <span key={i} style={{
+            "--left": `${(i * 29 + 7) % 100}%`,
+            "--delay": `${-(i % 9) * 1.8}s`,
+            "--speed": `${10 + (i % 6) * 2}s`
+          }} />
+        ))}
+      </div>
+    </section>
+  );
+}

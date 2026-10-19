@@ -1,0 +1,582 @@
+
+========== src\main.jsx ==========
+
+import PremiumHero from './PremiumHero.jsx';
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { ArrowRight, ArrowUpRight, BrainCircuit, ChartNoAxesCombined, Code2, Menu, X, Sparkles, Send, Activity } from "lucide-react";
+import * as THREE from "three";
+import "./style.css";
+
+function Water() {
+  useEffect(() => {
+    const canvas = document.querySelector("#water");
+    let renderer, scene, camera, material, geometry, raf, resize;
+    let alive = true;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "low-power" });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setSize(innerWidth, innerHeight);
+      scene = new THREE.Scene();
+      camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+      geometry = new THREE.PlaneGeometry(2, 2);
+      material = new THREE.ShaderMaterial({
+        uniforms: { time: { value: 0 }, resolution: { value: new THREE.Vector2(innerWidth, innerHeight) } },
+        vertexShader: "varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position,1.0);}",
+        fragmentShader: `
+          precision mediump float;
+          varying vec2 vUv;
+          uniform float time;
+          uniform vec2 resolution;
+          void main(){
+            vec2 p=vUv*2.0-1.0;
+            p.x*=resolution.x/resolution.y;
+            float w=sin(p.x*2.7+p.y*1.6+time*.23);
+            w+=cos(p.y*3.3-p.x*.8-time*.19);
+            w+=sin(length(p-vec2(-.3,.2))*8.0-time*.3);
+            w+=cos(length(p+vec2(.5,.3))*11.0-time*.24);
+            w*=.25;
+            float shine=smoothstep(.28,.9,w);
+            float vignette=1.0-smoothstep(.25,1.65,length(p));
+            vec3 c=mix(vec3(.008,.022,.015),vec3(.025,.24,.12),.48+w*.35);
+            c=mix(c,vec3(.2,.57,.34),shine*.22);
+            c*=vignette;
+            gl_FragColor=vec4(c,.95);
+          }`
+      });
+      scene.add(new THREE.Mesh(geometry, material));
+      resize = () => {
+        renderer.setSize(innerWidth, innerHeight);
+        material.uniforms.resolution.value.set(innerWidth, innerHeight);
+      };
+      window.addEventListener("resize", resize);
+      const tick = t => {
+        if (!alive) return;
+        raf = requestAnimationFrame(tick);
+        material.uniforms.time.value = t * .001;
+        renderer.render(scene, camera);
+      };
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) raf = requestAnimationFrame(tick);
+      else { renderer.render(scene, camera); }
+    } catch (e) {
+      canvas.style.display = "none";
+      console.warn("WebGL unavailable; CSS fallback active.");
+    }
+    return () => {
+      alive = false;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+      geometry?.dispose(); material?.dispose(); renderer?.dispose();
+    };
+  }, []);
+  return <canvas id="water" aria-hidden="true" />;
+}
+
+function Orb() {
+  return <div className="orb-scene" aria-label="Abstract animated glass orb">
+    <div className="orb-halo" />
+    <div className="orbit o1"><i /></div><div className="orbit o2"><i /></div><div className="orbit o3"><i /></div>
+    <div className="orb"><div className="orb-light"/><div className="orb-inner"/><div className="orb-wave"/></div>
+    <span className="orb-label">◉ &nbsp; DATA IN MOTION</span>
+  </div>;
+}
+
+function Birds() {
+  return <div className="birds" aria-hidden="true">{[0,1,2,3,4,5].map(n =>
+    <svg key={n} className={"bird bird"+n} viewBox="0 0 50 24"><path d="M2 5 Q13 3 25 18 Q37 3 48 5 Q37 0 25 12 Q13 0 2 5Z"/></svg>
+  )}</div>;
+}
+
+const services = [
+  { n:"01", icon:ChartNoAxesCombined, title:"Data Analytics & BI", text:"Turn complex business data into useful dashboards, actionable insights and confident decisions.", tags:"Power BI · SQL · Python" },
+  { n:"02", icon:BrainCircuit, title:"AI Solutions & Automation", text:"Explore predictive models, AI-powered workflows and automation built around real business needs.", tags:"Machine Learning · GenAI" },
+  { n:"03", icon:Code2, title:"Web & Software Development", text:"Build modern, responsive websites and digital products with thoughtful user experiences.", tags:"React · APIs · Web Apps" }
+];
+
+const projects = [
+  { type:"BUSINESS INTELLIGENCE", title:"Business Performance Analytics", text:"An illustrative dashboard concept for sales, customer trends and performance indicators.", icon:ChartNoAxesCombined },
+  { type:"ARTIFICIAL INTELLIGENCE", title:"Predictive Intelligence", text:"A concept exploring how structured data can support model-driven predictions.", icon:BrainCircuit },
+  { type:"DIGITAL PRODUCTS", title:"Intelligent Web Experiences", text:"A modern product interface concept built around clarity, usability and speed.", icon:Code2 }
+];
+
+function App() {
+  const [menu, setMenu] = useState(false);
+  const [notice, setNotice] = useState("");
+  const [form, setForm] = useState({name:"",email:"",message:""});
+  const nav = [["Services","#services"],["Work","#work"],["About","#about"],["Contact","#contact"]];
+  function submit(e) {
+    e.preventDefault();
+    setNotice("Demo mode: your message has not been sent. Connect an email service to receive enquiries.");
+  }
+  return <>
+    <Water />
+    <header className="header">
+      <a className="brand" href="#home"><span className="logo">◉</span><span>DATA ORBIT <b>TECHNOLOGIES</b></span></a>
+      <button className="menu-btn" aria-label="Toggle navigation" onClick={() => setMenu(!menu)}>{menu ? <X/> : <Menu/>}</button>
+      <nav className={menu ? "nav open" : "nav"}>{nav.map(([n,h])=><a key={n} href={h} onClick={()=>setMenu(false)}>{n}</a>)}<a className="nav-cta" href="#contact" onClick={()=>setMenu(false)}>Let's talk <ArrowUpRight size={15}/></a></nav>
+    </header>
+
+    <main>
+      <PremiumHero />
+
+      <div className="strip"><span>THOUGHTFUL TECHNOLOGY</span><i/><span>MEASURABLE INSIGHT</span><i/><span>HUMAN-CENTERED DESIGN</span></div>
+
+      <section className="section" id="services">
+        <div className="section-head"><div><div className="eyebrow">01 / WHAT WE DO</div><h2>Technology with<br/><span>purpose.</span></h2></div><p>From the first question to the final product, we focus on solutions that make complex things easier to understand and use.</p></div>
+        <div className="service-grid">{services.map(({n,icon:Icon,title,text,tags})=><article className="service glass" key={n}>
+          <div className="service-top"><span>{n}</span><Icon size={24}/></div><h3>{title}</h3><p>{text}</p><span className="tags">{tags}</span><a href="#contact" className="text-link">Discuss a project <ArrowRight size={15}/></a>
+        </article>)}</div>
+      </section>
+
+      <section className="section work" id="work">
+        <div className="section-head"><div><div className="eyebrow">02 / SELECTED CONCEPTS</div><h2>Ideas into<br/><span>experiences.</span></h2></div><p>Illustrative project concepts showing the types of problems we can explore. These are concepts, not claims of client work.</p></div>
+        <div className="project-grid">{projects.map(({type,title,text,icon:Icon},i)=><article className="project" key={title}>
+          <div className={"project-art art"+i}>{i===0?<div className="dashboard"><small>PERFORMANCE OVERVIEW <b>DEMO</b></small><div className="bars">{[35,52,43,75,60,89,66,100,73].map((h,j)=><i key={j} style={{height:h+"%"}}/>)}</div><small>ILLUSTRATIVE DATA</small></div>:i===1?<div className="network"><Icon size={36}/>{Array.from({length:8},(_,j)=><i key={j} style={{"--i":j}}/>)}</div>:<div className="code-window"><small>01 / PRODUCT CONCEPT</small><p>const insight = await</p><b>analyze(data);</b><p>return clarity;</p><i/></div>}</div>
+          <div className="project-meta">{type}<span>CONCEPT 0{i+1}</span></div><h3>{title}</h3><p>{text}</p><a className="text-link" href="#contact">Discuss a similar idea <ArrowRight size={15}/></a>
+        </article>)}</div>
+      </section>
+
+      <section className="about" id="about"><div className="about-mark"><span>DO</span><i/><i/><i/></div><div><div className="eyebrow">03 / OUR APPROACH</div><h2>Clear thinking.<br/><span>Meaningful building.</span></h2><p>Great technology starts with understanding the problem. We connect analytical thinking, practical engineering and considered design to turn ideas into useful digital experiences.</p><a className="text-link" href="#contact">Tell us what you're building <ArrowRight size={15}/></a></div></section>
+
+      <section className="contact section" id="contact">
+        <div><div className="eyebrow">04 / GET IN TOUCH</div><h2>Have a challenge?<br/><span>Let's explore it.</span></h2><p>Tell us a little about your idea, data challenge or digital product.</p><div className="contact-note"><Sparkles size={17}/> Good questions lead to better solutions.</div></div>
+        <form className="contact-form glass" onSubmit={submit}>
+          <label>Your name<input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="How should we address you?"/></label>
+          <label>Work email<input required type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="you@company.com"/></label>
+          <label>What are you working on?<textarea required rows="4" value={form.message} onChange={e=>setForm({...form,message:e.target.value})} placeholder="Tell us about your project..."/></label>
+          <button className="btn primary" type="submit">Review message <Send size={15}/></button>
+          {notice && <p className="notice" role="status">{notice}</p>}<small className="legal">Demo form only. No information is sent or stored.</small>
+        </form>
+      </section>
+    </main>
+    <footer><a className="brand" href="#home"><span className="logo">◉</span><span>DATA ORBIT <b>TECHNOLOGIES</b></span></a><p>Turning Data Into Intelligence.</p><small>© {new Date().getFullYear()} Data Orbit Technologies</small></footer>
+  </>;
+}
+
+createRoot(document.getElementById("root")).render(<App/>);
+
+
+
+========== src\PremiumHero.jsx ==========
+
+import LiquidWater from './LiquidWater.jsx';
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import "./PremiumHero.css";
+
+export default function PremiumHero() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    let renderer, scene, camera, orb, ringGroup, frame;
+    let disposed = false;
+    let resizeHandler;
+    let mouseX = 0, mouseY = 0;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "low-power"
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setSize(canvas.clientWidth || window.innerWidth, canvas.clientHeight || window.innerHeight);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+      camera.position.z = 6.4;
+
+      scene.add(new THREE.AmbientLight(0x9effc0, 1.2));
+      const key = new THREE.PointLight(0x65ff9d, 35, 15);
+      key.position.set(3, 3, 4);
+      scene.add(key);
+
+      const rim = new THREE.PointLight(0x18864b, 40, 12);
+      rim.position.set(-3, -2, 2);
+      scene.add(rim);
+
+      const sphereGeometry = new THREE.SphereGeometry(1.13, 72, 72);
+      const sphereMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x237b4b,
+        metalness: 0.18,
+        roughness: 0.13,
+        transmission: 0.24,
+        thickness: 1.8,
+        transparent: true,
+        opacity: 0.93,
+        clearcoat: 1,
+        clearcoatRoughness: 0.08,
+        emissive: 0x062d18,
+        emissiveIntensity: 0.7
+      });
+      orb = new THREE.Mesh(sphereGeometry, sphereMaterial);
+      scene.add(orb);
+
+      const inner = new THREE.Mesh(
+        new THREE.SphereGeometry(0.72, 48, 48),
+        new THREE.MeshStandardMaterial({
+          color: 0x36d87d,
+          roughness: 0.28,
+          metalness: 0.22,
+          emissive: 0x0a7d39,
+          emissiveIntensity: 1.1,
+          transparent: true,
+          opacity: 0.62
+        })
+      );
+      orb.add(inner);
+
+      const core = new THREE.Mesh(
+        new THREE.SphereGeometry(0.42, 40, 40),
+        new THREE.MeshPhysicalMaterial({
+          color: 0x9bffc0,
+          roughness: 0.18,
+          metalness: 0.3,
+          emissive: 0x188c4b,
+          emissiveIntensity: 0.65,
+          transparent: true,
+          opacity: 0.68
+        })
+      );
+      orb.add(core);
+
+      ringGroup = new THREE.Group();
+      scene.add(ringGroup);
+
+      const ringConfigs = [
+        [1.48, 0.026, 0x9effc0, 0.75],
+        [1.65, 0.012, 0x3dbb76, 0.65],
+        [1.82, 0.009, 0xb6ffd0, 0.38]
+      ];
+
+      ringConfigs.forEach(([radius, tube, color, opacity], i) => {
+        const geometry = new THREE.TorusGeometry(radius, tube, 8, 180);
+        const material = new THREE.MeshBasicMaterial({
+          color,
+          transparent: true,
+          opacity
+        });
+        const ring = new THREE.Mesh(geometry, material);
+        ring.rotation.x = 0.7 + i * 0.56;
+        ring.rotation.y = 0.25 + i * 0.45;
+        ring.userData.speed = (i % 2 ? -1 : 1) * (0.1 + i * 0.035);
+        ringGroup.add(ring);
+
+        const dot = new THREE.Mesh(
+          new THREE.SphereGeometry(0.035, 12, 12),
+          new THREE.MeshBasicMaterial({ color: 0xc8ffdc })
+        );
+        ring.add(dot);
+        dot.position.set(radius, 0, 0);
+        dot.userData.orbitDot = true;
+      });
+
+      const particleCount = window.innerWidth < 700 ? 45 : 100;
+      const positions = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 8;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 6;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 3;
+      }
+      const particleGeometry = new THREE.BufferGeometry();
+      particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      const particles = new THREE.Points(
+        particleGeometry,
+        new THREE.PointsMaterial({
+          color: 0x9dffc0,
+          size: 0.018,
+          transparent: true,
+          opacity: 0.48,
+          sizeAttenuation: true
+        })
+      );
+      scene.add(particles);
+
+      resizeHandler = () => {
+        if (!renderer || !camera) return;
+        const width = canvas.clientWidth || window.innerWidth;
+        const height = canvas.clientHeight || window.innerHeight;
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.position.z = width < 600 ? 7.7 : 6.4;
+        camera.updateProjectionMatrix();
+      };
+
+      const onPointerMove = (event) => {
+        mouseX = (event.clientX / window.innerWidth - 0.5) * 0.22;
+        mouseY = (event.clientY / window.innerHeight - 0.5) * 0.16;
+      };
+
+      window.addEventListener("resize", resizeHandler);
+      window.addEventListener("pointermove", onPointerMove, { passive: true });
+      resizeHandler();
+
+      const clock = new THREE.Clock();
+      const animate = () => {
+        if (disposed) return;
+        frame = requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+
+        orb.rotation.y = t * 0.12 + (reduceMotion ? 0 : mouseX * 0.6);
+        orb.rotation.x = Math.sin(t * 0.28) * 0.08 + (reduceMotion ? 0 : mouseY * 0.5);
+        orb.position.y = reduceMotion ? 0 : Math.sin(t * 0.65) * 0.075;
+
+        inner.rotation.x = t * 0.19;
+        inner.rotation.y = -t * 0.16;
+        core.scale.setScalar(1 + Math.sin(t * 1.2) * 0.045);
+
+        ringGroup.children.forEach((ring) => {
+          if (ring.userData.speed) {
+            ring.rotation.z += reduceMotion ? 0 : ring.userData.speed * 0.006;
+          }
+        });
+
+        particles.rotation.y = t * 0.012;
+        particles.rotation.x = Math.sin(t * 0.1) * 0.04;
+
+        renderer.render(scene, camera);
+      };
+
+      if (reduceMotion) {
+        renderer.render(scene, camera);
+      } else {
+        animate();
+      }
+
+      return () => {
+        disposed = true;
+        cancelAnimationFrame(frame);
+        window.removeEventListener("resize", resizeHandler);
+        window.removeEventListener("pointermove", onPointerMove);
+        scene.traverse((obj) => {
+          obj.geometry?.dispose();
+          if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+          else obj.material?.dispose();
+        });
+        renderer.dispose();
+      };
+    } catch (error) {
+      console.error("3D animation unavailable:", error);
+      canvas.classList.add("orb-fallback");
+    }
+  }, []);
+
+  return (
+    <section className="premium-hero" id="home">
+      <LiquidWater />
+      <div className="hero-water" />
+      <div className="water-line water-line-one" />
+      <div className="water-line water-line-two" />
+
+      <div className="premium-birds" aria-hidden="true">
+        {Array.from({ length: 7 }, (_, i) => (
+          <svg key={i} className={`premium-bird bird-${i}`} viewBox="0 0 52 25">
+            <path d="M1 5 Q14 1 26 17 Q38 1 51 5 Q38 0 26 11 Q14 0 1 5Z" />
+          </svg>
+        ))}
+      </div>
+
+      <div className="premium-copy">
+        <div className="premium-kicker"><span /> DATA <i>·</i> AI <i>·</i> ENGINEERING</div>
+        <h1>Turning Data<br />Into <em>Intelligence.</em></h1>
+        <p>We transform complex data into clear insights, intelligent systems and meaningful digital experiences.</p>
+        <div className="premium-actions">
+          <a href="#contact" className="premium-button">Start a Conversation <span>↗</span></a>
+          <a href="#services" className="premium-secondary">Explore Capabilities <span>↓</span></a>
+        </div>
+        <div className="premium-foot"><span className="status-dot" /> BUILDING WHAT COMES NEXT</div>
+      </div>
+
+      <div className="premium-orb-wrap">
+        <div className="orb-aura" />
+        <canvas ref={canvasRef} className="premium-orb-canvas" aria-label="Animated emerald glass orb" />
+        <div className="orb-caption"><span /> INTELLIGENCE IN MOTION</div>
+      </div>
+
+      <div className="premium-index"><span>01</span><i /> DIGITAL INTELLIGENCE</div>
+    </section>
+  );
+}
+
+
+
+========== src\LiquidWater.jsx ==========
+
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import "./LiquidWater.css";
+
+export default function LiquidWater() {
+  const hostRef = useRef(null);
+
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+
+    let renderer;
+    let frame = 0;
+    let observer;
+    let disposed = false;
+
+    try {
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 2);
+      camera.position.z = 1;
+
+      const geometry = new THREE.PlaneGeometry(2, 2);
+      const material = new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        uniforms: {
+          uTime: { value: 0 },
+          uResolution: { value: new THREE.Vector2(1, 1) }
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          precision highp float;
+          varying vec2 vUv;
+          uniform float uTime;
+          uniform vec2 uResolution;
+
+          float hash(vec2 p) {
+            return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+          }
+
+          float noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            f = f * f * (3.0 - 2.0 * f);
+            return mix(
+              mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+              mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
+              f.y
+            );
+          }
+
+          float fbm(vec2 p) {
+            float value = 0.0;
+            float amplitude = 0.5;
+            for (int i = 0; i < 4; i++) {
+              value += noise(p) * amplitude;
+              p = p * 2.02 + vec2(17.1, 9.2);
+              amplitude *= 0.5;
+            }
+            return value;
+          }
+
+          void main() {
+            vec2 uv = vUv;
+            uv.x *= uResolution.x / max(uResolution.y, 1.0);
+
+            float t = uTime * 0.20;
+            vec2 flow = uv * 2.5;
+
+            flow.x += sin(flow.y * 2.0 + t) * 0.12;
+            flow.y += cos(flow.x * 1.6 - t * 0.7) * 0.10;
+
+            float clouds = fbm(flow * 3.0 + vec2(t, -t * 0.65));
+            float waves = sin(
+              flow.x * 11.0 +
+              flow.y * 7.0 +
+              clouds * 5.0 +
+              t * 1.5
+            );
+
+            float ripples = pow(1.0 - abs(waves), 13.0);
+            float fineRipples = pow(
+              1.0 - abs(sin(flow.y * 19.0 - flow.x * 5.0 + t * 1.2)),
+              22.0
+            );
+
+            float caustics = smoothstep(0.58, 0.91, clouds);
+            float edgeFade = smoothstep(0.0, 0.22, vUv.y)
+                           * smoothstep(1.0, 0.72, vUv.y);
+
+            float light = ripples * 0.32
+                        + fineRipples * 0.17
+                        + caustics * 0.09;
+
+            vec3 deepWater = vec3(0.015, 0.15, 0.12);
+            vec3 emeraldLight = vec3(0.12, 0.85, 0.58);
+            vec3 color = mix(deepWater, emeraldLight, clamp(light * 2.0, 0.0, 1.0));
+
+            float alpha = (0.035 + light * 0.48) * edgeFade;
+
+            gl_FragColor = vec4(color, alpha);
+            #include <tonemapping_fragment>
+            #include <colorspace_fragment>
+          }
+        `
+      });
+
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: false,
+        powerPreference: "low-power"
+      });
+
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setClearColor(0x000000, 0);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      host.appendChild(renderer.domElement);
+
+      const surface = new THREE.Mesh(geometry, material);
+      scene.add(surface);
+
+      const resize = () => {
+        if (disposed) return;
+        const width = Math.max(host.clientWidth, 1);
+        const height = Math.max(host.clientHeight, 1);
+        renderer.setSize(width, height, false);
+        material.uniforms.uResolution.value.set(width, height);
+      };
+
+      observer = new ResizeObserver(resize);
+      observer.observe(host);
+      resize();
+
+      const clock = new THREE.Clock();
+
+      const animate = () => {
+        if (disposed) return;
+        frame = requestAnimationFrame(animate);
+        material.uniforms.uTime.value = clock.getElapsedTime();
+        renderer.render(scene, camera);
+      };
+
+      animate();
+
+      return () => {
+        disposed = true;
+        cancelAnimationFrame(frame);
+        observer?.disconnect();
+        geometry.dispose();
+        material.dispose();
+        renderer.dispose();
+        renderer.domElement.remove();
+      };
+    } catch (error) {
+      console.error("Liquid water effect could not start:", error);
+      disposed = true;
+      if (renderer) renderer.dispose();
+    }
+  }, []);
+
+  return <div className="liquid-water-layer" ref={hostRef} aria-hidden="true" />;
+}
+

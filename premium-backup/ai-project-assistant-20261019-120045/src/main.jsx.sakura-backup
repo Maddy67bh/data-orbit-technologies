@@ -1,0 +1,502 @@
+import React, { useState } from "react";
+import { createRoot } from "react-dom/client";
+import "./OrbitWebsite.css";
+
+const services = [
+  {
+    number: "01",
+    icon: "↗",
+    title: "Data Science",
+    text: "Turn raw data into reliable predictions, actionable insights and smarter decisions.",
+    tags: ["Predictive modelling", "Statistical analysis", "Forecasting"]
+  },
+  {
+    number: "02",
+    icon: "▥",
+    title: "Business Intelligence",
+    text: "Make business performance easier to understand with clear, decision-ready dashboards.",
+    tags: ["Power BI", "KPI reporting", "Data storytelling"]
+  },
+  {
+    number: "03",
+    icon: "✳",
+    title: "AI & Machine Learning",
+    text: "Explore practical intelligent systems built around real business needs and useful outcomes.",
+    tags: ["Machine learning", "NLP", "Generative AI"]
+  },
+  {
+    number: "04",
+    icon: "⌘",
+    title: "Data Engineering",
+    text: "Create organised data workflows that make information easier to access, analyse and use.",
+    tags: ["Data pipelines", "Python", "Automation"]
+  }
+];
+
+const projects = [
+  {
+    number: "01",
+    category: "BUSINESS INTELLIGENCE",
+    title: "Business Performance Analytics",
+    description: "An analytics experience for exploring sales performance, customer trends and business KPIs.",
+    visual: "dashboard"
+  },
+  {
+    number: "02",
+    category: "MACHINE LEARNING",
+    title: "Predictive Intelligence",
+    description: "A machine learning workflow designed to turn historical data into useful predictions.",
+    visual: "prediction"
+  },
+  {
+    number: "03",
+    category: "ARTIFICIAL INTELLIGENCE",
+    title: "Intelligent Data Experiences",
+    description: "A concept for making complex information more accessible through AI-powered workflows.",
+    visual: "intelligence"
+  }
+];
+
+const process = [
+  ["01", "Discover", "Understand the business challenge, the data and the desired outcome."],
+  ["02", "Analyse", "Explore the data, identify patterns and establish a sound approach."],
+  ["03", "Build", "Develop the analytics, model or digital experience around the use case."],
+  ["04", "Deliver", "Present the results clearly and identify opportunities for improvement."]
+];
+
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const name = form.get("name");
+    const email = form.get("email");
+    const company = form.get("company") || "Not provided";
+    const message = form.get("message");
+
+    const subject = encodeURIComponent("Website enquiry — Data Orbit Technologies");
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nCompany: ${company}\n\nProject details:\n${message}`
+    );
+
+    // Replace this placeholder with your real business email before launch.
+    window.location.href =
+      `mailto:YOUR-EMAIL@example.com?subject=${subject}&body=${body}`;
+
+    setSubmitted(true);
+  }
+
+  return (
+    <>
+      <div className="announcement">
+        <span className="announcement-dot" />
+        DATA · INTELLIGENCE · ENGINEERING
+        <span className="announcement-right">BUILT AROUND REAL-WORLD PROBLEMS ↗</span>
+      </div>
+
+      <header className="site-header">
+        <a className="brand" href="#home" onClick={closeMenu} aria-label="Data Orbit home">
+          <span className="brand-symbol">
+            <span />
+            <span />
+            <span />
+          </span>
+          <span className="brand-wordmark">
+            <strong>DATA ORBIT</strong>
+            <small>TECHNOLOGIES</small>
+          </span>
+        </a>
+
+        <button
+          className="mobile-menu-button"
+          type="button"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle navigation"
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? "CLOSE ×" : "MENU ☰"}
+        </button>
+
+        <nav className={menuOpen ? "site-nav nav-open" : "site-nav"}>
+          <a href="#services" onClick={closeMenu}>Services</a>
+          <a href="#about" onClick={closeMenu}>About</a>
+          <a href="#work" onClick={closeMenu}>Our Work</a>
+          <a href="#process" onClick={closeMenu}>Approach</a>
+          <a className="nav-cta" href="#contact" onClick={closeMenu}>
+            Let's Talk <span>↗</span>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <section className="hero" id="home">
+          <div className="hero-grid" />
+          <div className="hero-glow" />
+          <div className="hero-inner">
+            <div className="hero-copy">
+              <div className="eyebrow">
+                <span className="eyebrow-line" />
+                DATA · AI · ENGINEERING
+              </div>
+
+              <h1>
+                Turning Data
+                <br />
+                Into <em>Intelligence.</em>
+              </h1>
+
+              <p className="hero-description">
+                We transform complex data into clear insights, intelligent
+                systems and meaningful digital experiences.
+              </p>
+
+              <div className="hero-actions">
+                <a className="button button-light" href="#contact">
+                  Start a Conversation <span>↗</span>
+                </a>
+                <a className="button button-outline" href="#services">
+                  Explore Capabilities <span>↓</span>
+                </a>
+              </div>
+
+              <div className="hero-proof">
+                <span className="availability-dot" />
+                <span>THOUGHTFUL TECHNOLOGY. MEANINGFUL OUTCOMES.</span>
+              </div>
+            </div>
+
+            <div className="hero-art" aria-label="Abstract emerald orbital illustration">
+              <div className="orbit orbit-one" />
+              <div className="orbit orbit-two" />
+              <div className="orbit orbit-three" />
+              <div className="orbit-node node-one" />
+              <div className="orbit-node node-two" />
+              <div className="orbit-node node-three" />
+              <div className="orb">
+                <div className="orb-inner" />
+                <div className="orb-shine" />
+                <div className="orb-ring" />
+              </div>
+              <div className="art-label art-label-top">
+                <span>01 / SYSTEMS</span>
+                <span>CONNECTED</span>
+              </div>
+              <div className="art-label art-label-bottom">
+                <span className="mini-line" />
+                <span>INSIGHT IN MOTION</span>
+              </div>
+              <div className="art-index">D.O. / 001</div>
+            </div>
+          </div>
+
+          <div className="hero-bottom">
+            <span>INFORMATION, WITH INTENTION.</span>
+            <a href="#about">SCROLL TO EXPLORE ↓</a>
+            <span>01 — 06</span>
+          </div>
+        </section>
+
+        <section className="intro section-pad" id="about">
+          <div className="section-label dark-label">
+            <span>01</span> / WHO WE ARE
+          </div>
+          <div className="intro-layout">
+            <h2>
+              Better questions.
+              <br />
+              <em>Clearer answers.</em>
+            </h2>
+            <div className="intro-copy">
+              <p>
+                Data has value when it helps people see what matters.
+                We bring analytical thinking, modern technology and
+                thoughtful design together to make information more useful.
+              </p>
+              <p>
+                From exploring datasets to designing intelligent workflows,
+                our focus is on practical solutions that connect technology
+                with real business needs.
+              </p>
+              <a className="text-link" href="#process">
+                Discover our approach <span>↗</span>
+              </a>
+            </div>
+          </div>
+          <div className="intro-bottom-line">
+            <span>ANALYTICAL BY NATURE.</span>
+            <span>INTENTIONAL BY DESIGN.</span>
+          </div>
+        </section>
+
+        <section className="services section-pad" id="services">
+          <div className="section-topline">
+            <div className="section-label">
+              <span>02</span> / WHAT WE DO
+            </div>
+            <p className="section-aside">CAPABILITIES THAT CONNECT<br />DATA TO DECISIONS.</p>
+          </div>
+
+          <div className="section-heading-row">
+            <h2>Technology with<br /><em>a clear purpose.</em></h2>
+            <p>
+              A thoughtful blend of analytical foundations and modern
+              engineering to help turn complex challenges into clearer next steps.
+            </p>
+          </div>
+
+          <div className="service-grid">
+            {services.map((service) => (
+              <article className="service-card" key={service.number}>
+                <div className="service-card-top">
+                  <span className="card-number">{service.number} / 04</span>
+                  <span className="service-icon">{service.icon}</span>
+                </div>
+                <h3>{service.title}</h3>
+                <p>{service.text}</p>
+                <div className="service-tags">
+                  {service.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+                <a href="#contact" className="card-arrow" aria-label={`Discuss ${service.title}`}>
+                  ↗
+                </a>
+              </article>
+            ))}
+          </div>
+
+          <div className="services-note">
+            <span className="note-star">✳</span>
+            <p>Every challenge is different. The right solution starts with understanding yours.</p>
+            <a href="#contact">Tell us what you are building <span>↗</span></a>
+          </div>
+        </section>
+
+        <section className="capabilities">
+          <div className="capabilities-grid" />
+          <div className="capabilities-content">
+            <div className="section-label">
+              <span>03</span> / HOW WE THINK
+            </div>
+            <h2>
+              Complex on the inside.
+              <br />
+              <em>Clear on the outside.</em>
+            </h2>
+            <p>
+              Great technology does more than work. It makes the next
+              decision easier, the next action clearer and the bigger picture
+              easier to see.
+            </p>
+            <div className="capability-points">
+              <div><span>01</span><strong>Evidence over assumptions</strong></div>
+              <div><span>02</span><strong>Clarity over complexity</strong></div>
+              <div><span>03</span><strong>Useful outcomes over noise</strong></div>
+            </div>
+          </div>
+          <div className="capabilities-decoration" aria-hidden="true">
+            <div className="cap-ring cap-ring-one" />
+            <div className="cap-ring cap-ring-two" />
+            <div className="cap-ring cap-ring-three" />
+            <span className="cap-core">D<br />O</span>
+          </div>
+        </section>
+
+        <section className="work section-pad" id="work">
+          <div className="section-topline">
+            <div className="section-label">
+              <span>04</span> / SELECTED WORK
+            </div>
+            <span className="work-note">CONCEPTS · ANALYTICS · EXPERIMENTS</span>
+          </div>
+          <div className="section-heading-row">
+            <h2>Ideas, made<br /><em>tangible.</em></h2>
+            <p>
+              A look at the kinds of data and AI experiences that can
+              help organisations explore opportunities and solve problems.
+            </p>
+          </div>
+
+          <div className="project-grid">
+            {projects.map((project) => (
+              <article className="project-card" key={project.number}>
+                <div className={`project-visual visual-${project.visual}`}>
+                  <div className="visual-top">
+                    <span>DATA ORBIT / LAB</span>
+                    <span>{project.number}</span>
+                  </div>
+
+                  {project.visual === "dashboard" && (
+                    <div className="mock-dashboard">
+                      <div className="mock-stat-row">
+                        <div><small>REVENUE</small><strong>Analytics</strong></div>
+                        <div><small>GROWTH</small><strong>Trends</strong></div>
+                        <div><small>ORDERS</small><strong>Insights</strong></div>
+                      </div>
+                      <div className="chart-bars">
+                        {[35, 54, 43, 72, 50, 83, 63, 95, 68, 80, 58, 100].map((height, i) => (
+                          <span key={i} style={{ height: `${height}%` }} />
+                        ))}
+                      </div>
+                      <div className="mock-axis"><span>WEEK 01</span><span>WEEK 06</span><span>WEEK 12</span></div>
+                    </div>
+                  )}
+
+                  {project.visual === "prediction" && (
+                    <div className="prediction-visual">
+                      <div className="prediction-ring"><span>ML</span></div>
+                      <div className="prediction-line line-a" />
+                      <div className="prediction-line line-b" />
+                      <div className="prediction-line line-c" />
+                      <span className="prediction-tag tag-a">INPUT DATA</span>
+                      <span className="prediction-tag tag-b">MODEL</span>
+                      <span className="prediction-tag tag-c">PREDICTION</span>
+                    </div>
+                  )}
+
+                  {project.visual === "intelligence" && (
+                    <div className="intelligence-visual">
+                      <div className="intelligence-orbit orbit-a" />
+                      <div className="intelligence-orbit orbit-b" />
+                      <div className="intelligence-core">✳</div>
+                      <span className="intelligence-label label-a">LANGUAGE</span>
+                      <span className="intelligence-label label-b">CONTEXT</span>
+                      <span className="intelligence-label label-c">INSIGHT</span>
+                    </div>
+                  )}
+                </div>
+                <div className="project-info">
+                  <div className="project-category">{project.category}</div>
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                  <a href="#contact" aria-label={`Ask about ${project.title}`}>Discuss a similar idea <span>↗</span></a>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="portfolio-disclaimer">
+            Illustrative project concepts. Replace with verified case studies,
+            screenshots and results before presenting them as completed client work.
+          </p>
+        </section>
+
+        <section className="process section-pad" id="process">
+          <div className="section-topline">
+            <div className="section-label dark-label">
+              <span>05</span> / OUR APPROACH
+            </div>
+            <span className="work-note dark-note">FROM QUESTION TO CLARITY</span>
+          </div>
+          <div className="section-heading-row">
+            <h2>Thoughtful at<br /><em>every step.</em></h2>
+            <p>
+              A structured approach keeps the problem in focus, the work
+              grounded and the outcome aligned with what matters.
+            </p>
+          </div>
+          <div className="process-grid">
+            {process.map(([number, title, description]) => (
+              <article className="process-card" key={number}>
+                <div className="process-number">{number}<span> ↗</span></div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </article>
+            ))}
+          </div>
+          <div className="process-footer">
+            <span className="process-line" />
+            <span>LISTEN CAREFULLY. BUILD THOUGHTFULLY. LEARN CONTINUOUSLY.</span>
+          </div>
+        </section>
+
+        <section className="contact section-pad" id="contact">
+          <div className="contact-orbit contact-orbit-one" />
+          <div className="contact-orbit contact-orbit-two" />
+          <div className="contact-layout">
+            <div className="contact-copy">
+              <div className="section-label">
+                <span>06</span> / START A CONVERSATION
+              </div>
+              <h2>
+                Have a challenge?
+                <br />
+                <em>Let's explore it.</em>
+              </h2>
+              <p>
+                Tell us what you are working on, what you want to understand
+                or where you see an opportunity. Let's start with a conversation.
+              </p>
+              <div className="contact-details">
+                <div><span className="contact-detail-icon">↗</span><span>DATA · AI · ANALYTICS</span></div>
+                <div><span className="contact-detail-icon">◎</span><span>IDEAS WELCOME. QUESTIONS TOO.</span></div>
+              </div>
+            </div>
+
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-heading">
+                <span>YOUR PROJECT, IN YOUR WORDS</span>
+                <span>↘</span>
+              </div>
+              <label>
+                Your name
+                <input name="name" type="text" placeholder="How should we address you?" required />
+              </label>
+              <label>
+                Email address
+                <input name="email" type="email" placeholder="you@company.com" required />
+              </label>
+              <label>
+                Company <span className="optional">(optional)</span>
+                <input name="company" type="text" placeholder="Your organisation" />
+              </label>
+              <label>
+                Tell us about your challenge
+                <textarea name="message" rows="4" placeholder="A little context about your idea or project..." required />
+              </label>
+              <button className="button button-light form-submit" type="submit">
+                Prepare Email <span>↗</span>
+              </button>
+              {submitted && (
+                <p className="form-feedback">
+                  Your email app should open. Replace YOUR-EMAIL@example.com in the code with your real business email.
+                </p>
+              )}
+              <p className="form-privacy">
+                This demo form opens your email application. It does not store submissions on a server.
+              </p>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="site-footer">
+        <div className="footer-main">
+          <a className="brand footer-brand" href="#home">
+            <span className="brand-symbol">
+              <span /><span /><span />
+            </span>
+            <span className="brand-wordmark">
+              <strong>DATA ORBIT</strong>
+              <small>TECHNOLOGIES</small>
+            </span>
+          </a>
+          <p>Making complex information<br />easier to understand.</p>
+          <a className="footer-top" href="#home">BACK TO TOP ↑</a>
+        </div>
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} DATA ORBIT TECHNOLOGIES</span>
+          <span>DATA · INTELLIGENCE · ENGINEERING</span>
+          <a href="#contact">LET'S CONNECT ↗</a>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

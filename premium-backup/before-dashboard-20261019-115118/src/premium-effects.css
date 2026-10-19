@@ -1,0 +1,81 @@
+:root {
+  --orbit-emerald: #164b3b;
+  --orbit-gold: #c6a66b;
+  --orbit-ivory: #f6f4ec;
+}
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .service-card,
+  .project-card,
+  .portfolio-card,
+  [data-premium-card="true"] {
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform .32s ease, box-shadow .32s ease,
+      border-color .32s ease;
+  }
+
+  .service-card:hover,
+  .project-card:hover,
+  .portfolio-card:hover,
+  [data-premium-card="true"]:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 18px 45px rgba(22,75,59,.15),
+                0 4px 16px rgba(198,166,107,.12);
+    border-color: rgba(198,166,107,.8);
+  }
+
+  .premium-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+
+  .premium-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  button, a, [role="button"] {
+    transition: box-shadow .25s ease, filter .25s ease,
+      transform .2s ease;
+  }
+
+  button:active, [role="button"]:active {
+    transform: scale(.97);
+  }
+
+  .premium-page-enter {
+    animation: orbitEntrance .6s ease both;
+  }
+}
+
+@keyframes orbitEntrance {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.orbit-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(198,166,107,.32);
+  transform: scale(0);
+  animation: orbitRipple .55s ease-out forwards;
+}
+
+@keyframes orbitRipple {
+  to { transform: scale(1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+  .premium-reveal { opacity: 1; transform: none; }
+}

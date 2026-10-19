@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Orbit | Private Admin</title>
+<style>
+:root{color-scheme:dark;--bg:#07110f;--panel:#101e1a;--line:#284139;--green:#79d6a1;--muted:#a4b8ae}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17362a,var(--bg) 60%);color:#f0f7f2;font:15px/1.5 Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer;border:1px solid #47745d;background:#1b382a;color:#e9fff0;border-radius:10px;padding:10px 14px}button:hover{background:#28543d}
+input,select{background:#081511;border:1px solid var(--line);color:#fff;border-radius:10px;padding:12px;width:100%}
+.wrap{max-width:1200px;margin:auto;padding:28px 18px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+h1,h2,p{margin-top:0}h1{font-size:clamp(24px,4vw,36px);margin-bottom:4px}h2{font-size:19px}.muted{color:var(--muted)}.card{background:#0d1b16ed;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 18px 55px #0003}
+.login{max-width:420px;margin:9vh auto}.row{display:grid;grid-template-columns:minmax(260px,0.8fr) minmax(0,1.5fr);gap:18px}
+#list{display:grid;gap:10px;align-content:start}.item{text-align:left;width:100%;background:#0b1914;border-color:#284139;overflow-wrap:anywhere}.item.active{border-color:var(--green);background:#183326}
+.small{font-size:12px;color:var(--muted)}.badge{display:inline-block;padding:3px 8px;border:1px solid #47745d;border-radius:30px;color:var(--green);font-size:12px}
+#messages{display:grid;gap:12px;margin:18px 0}.msg{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#0a1712;white-space:pre-wrap;overflow-wrap:anywhere}.msg.user{border-color:#47745d}.msg strong{display:block;color:var(--green);font-size:12px;margin-bottom:5px}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.controls select{max-width:190px}.empty{padding:30px 10px;text-align:center;color:var(--muted)}
+@media(max-width:760px){.row{grid-template-columns:1fr}.wrap{padding:18px 12px}.card{padding:15px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><div><div class="badge">PRIVATE WORKSPACE</div><h1>Data Orbit Conversations</h1><p class="muted">Client enquiries · AI chat history · Project status</p></div><button id="logout" hidden>Sign out</button></div>
+  <section id="loginCard" class="card login">
+    <h2>Admin sign in</h2><p class="muted">This area is restricted to the site administrator.</p>
+    <form id="loginForm"><label for="password">Admin password</label><input id="password" type="password" autocomplete="current-password" required><p style="margin:14px 0 0"><button type="submit">Sign in securely</button></p></form>
+    <p id="loginError" role="status" class="muted"></p>
+  </section>
+  <section id="dashboard" hidden>
+    <div class="top"><p id="summary" class="muted">Loading conversations…</p><button id="refresh">Refresh</button></div>
+    <div class="row">
+      <section class="card"><h2>Enquiries</h2><div id="list"><p class="empty">Loading…</p></div></section>
+      <section class="card"><h2 id="detailTitle">Conversation details</h2><p id="detailMeta" class="muted">Select an enquiry to review it.</p>
+        <div class="controls"><label for="status">Project status</label><select id="status"><option value="new">New</option><option value="contacted">Contacted</option><option value="in-progress">In progress</option><option value="closed">Closed</option></select><button id="saveStatus" disabled>Save status</button></div>
+        <div id="messages"><p class="empty">Choose a conversation from the list.</p></div>
+      </section>
+    </div>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let conversations = [];
+let selectedId = null;
+let selectedStatus = "new";
+
+async function api(url, options = {}) {
+  const response = await fetch(url, { credentials: "same-origin", ...options,
+    headers: { "Content-Type": "application/json", ...(options.headers || {}) } });
+  const data = await response.json().catch(() => ({}));
+  if (response.status === 401) { showLogin(); throw new Error("Please sign in again."); }
+  if (!response.ok) throw new Error(data.error || "Request failed.");
+  return data;
+}
+function showLogin() {
+  $("loginCard").hidden = false; $("dashboard").hidden = true; $("logout").hidden = true;
+}
+function showDashboard() {
+  $("loginCard").hidden = true; $("dashboard").hidden = false; $("logout").hidden = false;
+}
+function fmt(value) {
+  return value ? new Date(value).toLocaleString() : "Unknown date";
+}
+function safeElement(tag, className, text) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  el.textContent = text || "";
+  return el;
+}
+async function loadList() {
+  conversations = await api("/api/admin/conversations");
+  $("summary").textContent = conversations.length + " saved conversation(s)";
+  const list = $("list"); list.replaceChildren();
+  if (!conversations.length) list.append(safeElement("p", "empty", "No enquiries yet. New client chats will appear here."));
+  conversations.forEach((c) => {
+    const button = document.createElement("button");
+    button.className = "item" + (c.id === selectedId ? " active" : "");
+    const title = safeElement("strong", "", fmt(c.createdAt));
+    const status = safeElement("span", "badge", c.status);
+    const preview = safeElement("p", "small", c.lastMessage || "No message text");
+    const count = safeElement("span", "small", c.messageCount + " message(s)");
+    button.append(title, document.createElement("br"), status, preview, count);
+    button.addEventListener("click", () => openConversation(c.id));
+    list.append(button);
+  });
+}
+async function openConversation(id) {
+  selectedId = id;
+  const record = await api("/api/admin/conversations/" + encodeURIComponent(id));
+  selectedStatus = record.status || "new";
+  $("detailTitle").textContent = "Client conversation";
+  $("detailMeta").textContent = "Created: " + fmt(record.createdAt) + " · Last updated: " + fmt(record.updatedAt);
+  $("status").value = selectedStatus; $("saveStatus").disabled = false;
+  const messages = $("messages"); messages.replaceChildren();
+  if (!record.messages.length) messages.append(safeElement("p", "empty", "No messages."));
+  record.messages.forEach((m) => {
+    const item = safeElement("div", "msg " + (m.role === "user" ? "user" : "assistant"), "");
+    item.append(safeElement("strong", "", (m.role === "user" ? "CLIENT" : "AI ASSISTANT") + " · " + fmt(m.timestamp)));
+    item.append(document.createTextNode(m.content));
+    messages.append(item);
+  });
+  await loadList();
+}
+async function refresh() {
+  try { await loadList(); if (selectedId) await openConversation(selectedId); }
+  catch (error) { $("summary").textContent = error.message; }
+}
+$("loginForm").addEventListener("submit", async (event) => {
+  event.preventDefault(); $("loginError").textContent = "Signing in…";
+  try {
+    await api("/api/admin/login", { method: "POST", body: JSON.stringify({ password: $("password").value }) });
+    $("password").value = ""; showDashboard(); await refresh();
+  } catch (error) { $("loginError").textContent = error.message; }
+});
+$("refresh").addEventListener("click", refresh);
+$("saveStatus").addEventListener("click", async () => {
+  if (!selectedId) return;
+  try {
+    await api("/api/admin/conversations/" + encodeURIComponent(selectedId) + "/status", {
+      method: "PATCH", body: JSON.stringify({ status: $("status").value })
+    });
+    await refresh();
+  } catch (error) { alert(error.message); }
+});
+$("logout").addEventListener("click", async () => {
+  try { await api("/api/admin/logout", { method: "POST", body: "{}" }); } catch {}
+  selectedId = null; showLogin();
+});
+api("/api/admin/conversations").then(async () => { showDashboard(); await refresh(); })
+  .catch(() => showLogin());
+</script>
+</body>
+</html>

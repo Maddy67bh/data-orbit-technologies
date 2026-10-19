@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+.vercel
+.git
+node_modules
+dist
+backup-*/
+DATA_ORBIT_FULL_SOURCE.zip
+FULL_SOURCE_CODE.txt
+design-inspection.txt
+*-backup-*.html
+*-backup-*.css

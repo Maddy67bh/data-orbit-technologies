@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#102d25">
+<meta name="description" content="Design and develop polished digital interfaces that make products and services easier to explore.">
+<title>Digital Experiences | Data Orbit Technologies</title>
+<style>
+:root{--green:#12392e;--green2:#1d5945;--gold:#c6a56a;--cream:#f6f3eb;--paper:#fffdf8;--ink:#202b25;--muted:#6c756e;--line:#e7e3d8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.6}a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-size:15px;font-weight:800;letter-spacing:.3px}.brand span{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:2px;text-transform:uppercase}.navlinks{display:flex;gap:24px;font-size:13px;color:#536158}.navlinks a:hover{color:var(--green2)}.hero{padding:75px 0 48px;display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}.eyebrow{color:#8b7041;font-size:11px;letter-spacing:2.5px;font-weight:800;text-transform:uppercase}.hero h1{font-family:Georgia,serif;font-size:clamp(42px,6vw,70px);font-weight:500;letter-spacing:-2px;line-height:1.04;margin:17px 0}.hero p{color:var(--muted);font-size:16px;max-width:550px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:5px;padding:12px 18px;font-size:13px;font-weight:700;border:1px solid var(--green)}.primary{background:var(--green);color:white}.secondary{color:var(--green);background:transparent}.primary:hover{background:var(--green2)}.preview{background:var(--green);border-radius:18px;padding:24px;color:#fffdf8;box-shadow:0 24px 60px #183c2b20;position:relative;overflow:hidden}.preview:before{content:"";position:absolute;width:240px;height:240px;border:1px solid #ffffff19;border-radius:50%;right:-90px;top:-100px}.preview-top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:#d7e2d9}.live{border:1px solid #ffffff35;border-radius:20px;padding:5px 9px;font-size:10px}.preview h3{font-family:Georgia,serif;font-size:27px;font-weight:400;margin:23px 0 18px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{padding:13px 10px;background:#ffffff0c;border:1px solid #ffffff1a;border-radius:10px;min-width:0}.metric small{display:block;color:#d0dbd2;font-size:10px;min-height:31px}.metric strong{display:block;font-size:13px;margin-top:8px}.chart{height:135px;display:flex;align-items:end;gap:9px;padding:18px 10px 0;margin-top:16px;border-bottom:1px solid #ffffff36;background:linear-gradient(180deg,#ffffff05,transparent)}.bar{flex:1;border-radius:5px 5px 0 0;background:linear-gradient(180deg,#d9c08c,#a4bda8);min-width:8px}.chart-label{display:flex;justify-content:space-between;font-size:10px;color:#d0dbd2;margin-top:9px}.section{padding:44px 0 65px}.section-head{margin-bottom:23px}.section-head h2{font-family:Georgia,serif;font-weight:500;font-size:clamp(29px,4vw,42px);margin:8px 0}.section-head p{color:var(--muted);max-width:650px;margin:0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:23px;transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-3px);border-color:#bba574}.card .number{color:#9c8253;font-size:11px;letter-spacing:1.6px;font-weight:800}.card h3{font-family:Georgia,serif;font-size:22px;font-weight:500;margin:8px 0}.card p,.card li{color:var(--muted);font-size:13px}.card ul{padding-left:18px;margin-bottom:0}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.step{padding:18px 14px;border-top:2px solid var(--gold);background:#fffdf880}.step strong{font-size:12px;color:#927747}.step p{font-size:13px;margin-bottom:0;color:var(--muted)}.stack{background:#eae7dc;border-radius:10px;padding:20px 23px;font-size:13px;color:#435247}.notice{font-size:11px;color:#7b817a;border-top:1px solid var(--line);padding-top:17px;margin-top:30px}.cta{background:var(--green);color:white;padding:35px;border-radius:15px;display:flex;align-items:center;justify-content:space-between;gap:22px}.cta h2{font-family:Georgia,serif;font-weight:400;font-size:30px;margin:0}.cta p{color:#d1ded5;font-size:13px;margin-bottom:0}.cta .btn{border-color:#d7c59f;color:#fff;background:transparent;white-space:nowrap}.footer{padding:25px 0 35px;display:flex;justify-content:space-between;gap:15px;color:#778078;font-size:11px}.fade{animation:rise .7s ease both}@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:48px;gap:28px}.hero h1{font-size:48px}.grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.navlinks{gap:12px;font-size:12px}.cta{align-items:flex-start;flex-direction:column}.footer{flex-direction:column}.metrics{gap:6px}.metric{padding:10px 7px}.metric strong{font-size:11px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="wrap nav">
+<a class="brand" href="/">DATA ORBIT <span>Technologies</span></a>
+<nav class="navlinks"><a href="/">Home</a><a href="/#services">Services</a><a href="/#portfolio">Portfolio</a></nav>
+</header>
+<main class="wrap">
+<section class="hero fade">
+<div>
+<div class="eyebrow">OUR SERVICES / 03</div>
+<h1>Create a better digital journey.</h1>
+<p>Design and develop polished digital interfaces that make products and services easier to explore.</p>
+<div class="actions"><a class="btn primary" href="/#contact">Discuss a project ↗</a><a class="btn secondary" href="/#portfolio">← Back to portfolio</a></div>
+</div>
+<div class="preview">
+<div class="preview-top"><span>DATA ORBIT / OVERVIEW</span><span class="live">CONCEPT PREVIEW</span></div>
+<h3>Digital Experiences</h3>
+<div class="metrics">
+<div class="metric"><small>01 / Web experiences</small><strong>Explore</strong></div>
+<div class="metric"><small>02 / Interface design</small><strong>Understand</strong></div>
+<div class="metric"><small>03 / Responsive layouts</small><strong>Act</strong></div>
+</div>
+<div class="chart" aria-label="Illustrative decorative chart">
+<div class="bar" style="height:30%"></div><div class="bar" style="height:45%"></div><div class="bar" style="height:38%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:78%"></div><div class="bar" style="height:68%"></div><div class="bar" style="height:92%"></div>
+</div>
+<div class="chart-label"><span>Illustrative visual</span><span>Not live data</span></div>
+</div>
+</section>
+<section class="section">
+<div class="section-head"><div class="eyebrow">WHAT'S INSIDE</div><h2>Designed around useful outcomes.</h2><p>A structured view of the capabilities and experience this concept is intended to demonstrate.</p></div>
+<div class="grid">
+<div class="card"><div class="number">01 / CAPABILITIES</div><h3>Core features</h3><ul><li>Responsive website interfaces</li>
+<li>Modern landing pages</li>
+<li>Interactive product experiences</li>
+<li>Usability-focused design</li></ul></div>
+<div class="card"><div class="number">02 / VALUE</div><h3>What it helps explore</h3><p>Clear navigation, Responsive design and Accessible content are the focus areas represented in this showcase. Actual results depend on data, scope and implementation.</p><p>Clear presentation, useful context and responsible interpretation come first.</p></div>
+</div>
+</section>
+<section class="section">
+<div class="section-head"><div class="eyebrow">OUR APPROACH</div><h2>From question to experience.</h2><p>A practical workflow that keeps the goal, the evidence and the end user in view.</p></div>
+<div class="steps"><div class='step'><strong>STEP 01</strong><p>Understand the audience</p></div>
+<div class='step'><strong>STEP 02</strong><p>Plan content and navigation</p></div>
+<div class='step'><strong>STEP 03</strong><p>Design and build the interface</p></div>
+<div class='step'><strong>STEP 04</strong><p>Test across screen sizes</p></div>
+</div>
+</section>
+<section class="section">
+<div class="section-head"><div class="eyebrow">TECHNOLOGY</div><h2>The tools behind the concept.</h2></div>
+<div class="stack">React · JavaScript · CSS · Responsive UI</div>
+<p class="notice">Note: Service overview. Final features, timelines and deliverables depend on the agreed project scope.</p>
+</section>
+<section class="section" id="contact">
+<div class="cta"><div><h2>Have a question to solve?</h2><p>Let's discuss the right approach for your business or product.</p></div><a class="btn" href="mailto:hello@dataorbittechnologies.com?subject=Project%20enquiry">Start a conversation ↗</a></div>
+</section>
+</main>
+<footer class="wrap footer"><span>© 2026 Data Orbit Technologies</span><span>Thoughtful data. Practical intelligence. Better experiences.</span></footer>
+</body>
+</html>

@@ -1,0 +1,133 @@
+:root {
+  --orbit-emerald: #164b3b;
+  --orbit-emerald-light: #286650;
+  --orbit-gold: #c6a66b;
+  --orbit-ivory: #f6f4ec;
+}
+
+/* Respect reduced-motion accessibility preferences */
+@media (prefers-reduced-motion: no-preference) {
+  .service-card,
+  .project-card,
+  .portfolio-card,
+  [data-premium-card="true"] {
+    transform-style: preserve-3d;
+    transition:
+      transform 380ms cubic-bezier(.2,.8,.2,1),
+      box-shadow 380ms ease,
+      border-color 300ms ease,
+      background-color 300ms ease;
+    will-change: transform;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card:hover,
+  .project-card:hover,
+  .portfolio-card:hover,
+  [data-premium-card="true"]:hover {
+    transform: perspective(1000px) translateY(-7px) rotateX(1deg);
+    box-shadow:
+      0 22px 48px rgba(22,75,59,.13),
+      0 4px 15px rgba(198,166,107,.13);
+    border-color: rgba(198,166,107,.75);
+  }
+
+  .service-card::after,
+  .project-card::after,
+  .portfolio-card::after,
+  [data-premium-card="true"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 25%,
+      rgba(255,255,255,.34) 48%,
+      transparent 70%
+    );
+    transform: translateX(-140%);
+    transition: transform 750ms ease;
+  }
+
+  .service-card:hover::after,
+  .project-card:hover::after,
+  .portfolio-card:hover::after,
+  [data-premium-card="true"]:hover::after {
+    transform: translateX(140%);
+  }
+
+  .premium-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 650ms ease,
+      transform 650ms cubic-bezier(.2,.7,.2,1);
+  }
+
+  .premium-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .premium-page-enter {
+    animation: orbitPageEnter 650ms cubic-bezier(.2,.7,.2,1) both;
+  }
+
+  .premium-button,
+  button,
+  .btn,
+  [role="button"] {
+    transition:
+      transform 180ms ease,
+      box-shadow 250ms ease,
+      filter 250ms ease;
+  }
+
+  .premium-button:hover,
+  button:hover,
+  .btn:hover,
+  [role="button"]:hover {
+    filter: brightness(1.04);
+  }
+
+  .premium-button:active,
+  button:active,
+  .btn:active,
+  [role="button"]:active {
+    transform: scale(.97);
+  }
+}
+
+@keyframes orbitPageEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.orbit-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(198,166,107,.32);
+  transform: scale(0);
+  animation: orbitRipple 600ms ease-out forwards;
+}
+
+@keyframes orbitRipple {
+  to { transform: scale(1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+
+  .premium-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

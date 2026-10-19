@@ -1,0 +1,489 @@
+import CompanyDetails from "./CompanyDetails";
+import { useState } from "react";
+import "./SakuraHero.css";
+
+const landscape = "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2400&q=90";
+
+const services = [
+  {
+    number: "01",
+    title: "Data & Analytics",
+    text: "Transform complex information into clear insights that support smarter decisions.",
+    tag: "INTELLIGENCE"
+  },
+  {
+    number: "02",
+    title: "Artificial Intelligence",
+    text: "Explore practical AI and machine learning solutions built around real challenges.",
+    tag: "INNOVATION"
+  },
+  {
+    number: "03",
+    title: "Digital Experiences",
+    text: "Create modern, responsive digital experiences with thoughtful design and purpose.",
+    tag: "EXPERIENCE"
+  }
+];
+
+const projects = [
+  {
+    category: "DATA ANALYTICS",
+    title: "Business Intelligence",
+    text: "Turn business performance data into meaningful visual stories.",
+    number: "01"
+  },
+  {
+    category: "MACHINE LEARNING",
+    title: "Predictive Insights",
+    text: "Use patterns in data to support more informed future decisions.",
+    number: "02"
+  },
+  {
+    category: "DIGITAL PRODUCTS",
+    title: "Intelligent Experiences",
+    text: "Connect elegant interfaces with useful, intelligent capabilities.",
+    number: "03"
+  }
+];
+
+function OrbitMark() {
+  return (
+    <svg
+      className="orbit-mark orbit-mark-do"
+      viewBox="0 0 64 64"
+      role="img"
+      aria-label="Data Orbit Technologies"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="doGoldFace" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#fff2cf" />
+          <stop offset="18%" stopColor="#f0d69c" />
+          <stop offset="42%" stopColor="#bd914c" />
+          <stop offset="62%" stopColor="#f8e4b2" />
+          <stop offset="82%" stopColor="#b1813c" />
+          <stop offset="100%" stopColor="#f1d49a" />
+        </linearGradient>
+
+        <linearGradient id="doGoldSide" x1="0" y1="0" x2="0.9" y2="1">
+          <stop offset="0%" stopColor="#8b602d" />
+          <stop offset="100%" stopColor="#4e371e" />
+        </linearGradient>
+
+        <linearGradient id="doCore" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#28543b" />
+          <stop offset="55%" stopColor="#143322" />
+          <stop offset="100%" stopColor="#081a11" />
+        </linearGradient>
+
+        <filter id="doDepth" x="-30%" y="-30%" width="170%" height="175%">
+          <feDropShadow
+            dx="0"
+            dy="2.5"
+            stdDeviation="2"
+            floodColor="#000000"
+            floodOpacity=".48"
+          />
+        </filter>
+      </defs>
+
+      <g filter="url(#doDepth)">
+        <rect
+          x="3"
+          y="3"
+          width="58"
+          height="58"
+          rx="17"
+          fill="url(#doCore)"
+          stroke="#dfc18a"
+          strokeOpacity=".23"
+          strokeWidth=".8"
+        />
+
+        <path
+          d="M17 14 H29.5 C41.2 14 48.5 21.1 48.5 32 S41.2 50 29.5 50 H17 Z"
+          fill="none"
+          stroke="url(#doGoldSide)"
+          strokeWidth="7"
+          strokeLinejoin="round"
+          transform="translate(0 1.8)"
+        />
+
+        <path
+          d="M17 14 H29.5 C41.2 14 48.5 21.1 48.5 32 S41.2 50 29.5 50 H17 Z"
+          fill="none"
+          stroke="url(#doGoldFace)"
+          strokeWidth="5"
+          strokeLinejoin="round"
+        />
+
+        <path
+          d="M18 16 H29 C39.6 16 46 22.1 46 32"
+          fill="none"
+          stroke="#fff2d2"
+          strokeWidth=".85"
+          strokeLinecap="round"
+          strokeOpacity=".9"
+        />
+
+        <circle
+          cx="35"
+          cy="32"
+          r="10"
+          fill="url(#doCore)"
+          stroke="url(#doGoldSide)"
+          strokeWidth="5.4"
+        />
+
+        <circle
+          cx="35"
+          cy="32"
+          r="10"
+          fill="none"
+          stroke="url(#doGoldFace)"
+          strokeWidth="3.4"
+        />
+
+        <path
+          d="M29 25.5 A9 9 0 0 1 42 27"
+          fill="none"
+          stroke="#fff0c9"
+          strokeWidth=".9"
+          strokeLinecap="round"
+          strokeOpacity=".9"
+        />
+
+        <circle cx="35" cy="32" r="2.1" fill="#dfc18a" />
+      </g>
+    </svg>
+  );
+}
+
+export default function SakuraHero() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
+  return (
+    <main className="site-shell">
+      <section className="hero" id="home">
+        {!imageFailed && (
+          <img
+            className="hero-image"
+            src={landscape}
+            alt="Atmospheric Japanese-inspired landscape"
+            fetchPriority="high"
+            onError={() => setImageFailed(true)}
+          />
+        )}
+
+        <div className="hero-shade" aria-hidden="true" />
+        <div className="hero-grain" aria-hidden="true" />
+
+        <header className="site-header">
+          <a className="brand" href="#home" onClick={closeMenu}>
+            <OrbitMark />
+            <span className="brand-copy">
+              <strong>DATA ORBIT</strong>
+              <small>TECHNOLOGIES</small>
+            </span>
+          </a>
+
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span />
+            <span />
+          </button>
+
+          <nav className={`nav-links ${menuOpen ? "nav-open" : ""}`}>
+            <a href="#home" onClick={closeMenu}>Home</a>
+            <a href="#about" onClick={closeMenu}>About</a>
+            <a href="#services" onClick={closeMenu}>Services</a>
+            <a href="#work" onClick={closeMenu}>Our Approach</a>
+            <a className="nav-contact" href="#contact" onClick={closeMenu}>
+              Let's Connect <span>↗</span>
+            </a>
+          </nav>
+        </header>
+
+        <div className="hero-layout">
+          <div className="hero-copy">
+            <p className="eyebrow">
+              <span className="eyebrow-rule" />
+              DATA · DESIGN · INTELLIGENCE
+            </p>
+
+            <h1>
+              A new orbit
+              <br />
+              for <em>what's possible.</em>
+            </h1>
+
+            <p className="hero-description">
+              Bringing technology, data and thoughtful design together
+              to create meaningful digital possibilities.
+            </p>
+
+            <div className="hero-buttons">
+              <a className="button button-gold" href="#services">
+                EXPLORE SERVICES <span>↗</span>
+              </a>
+              <a className="button button-outline" href="#work">
+                VIEW OUR APPROACH <span>↗</span>
+              </a>
+              <a className="button button-text" href="#contact">
+                CONTACT US <span>↗</span>
+              </a>
+            </div>
+          </div>
+
+          <div className="hero-stamp" aria-hidden="true">
+            <span className="stamp-orbit">✳</span>
+            <span>THINK</span>
+            <span>BEYOND</span>
+            <span className="stamp-small">THE EXPECTED</span>
+          </div>
+        </div>
+
+        <div className="hero-bottom">
+          <span>INNOVATION WITH INTENTION</span>
+          <span className="hero-bottom-center">01 — A DIFFERENT PERSPECTIVE</span>
+          <a href="#about">SCROLL TO EXPLORE ↓</a>
+        </div>
+      </section>
+
+      <section className="intro section-pad" id="about">
+        <div className="section-kicker">
+          <span className="gold-dot" /> OUR PERSPECTIVE
+        </div>
+
+        <div className="intro-grid">
+          <h2>
+            Technology should do
+            <br />
+            more than <em>look good.</em>
+          </h2>
+
+          <div className="intro-copy">
+            <p>
+              It should solve meaningful problems, uncover new opportunities
+              and make complicated things feel simpler.
+            </p>
+            <p>
+              Data Orbit Technologies explores the intersection of data,
+              intelligent systems and digital experiences—with curiosity,
+              clarity and purpose.
+            </p>
+            <a className="underlined-link" href="#services">
+              Discover what we do <span>↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="principles">
+          <div><span>01</span><strong>Clarity over complexity</strong></div>
+          <div><span>02</span><strong>Purpose before features</strong></div>
+          <div><span>03</span><strong>Progress through curiosity</strong></div>
+        </div>
+      </section>
+
+      <section className="services section-pad" id="services">
+        <div className="section-heading">
+          <div>
+            <div className="section-kicker">
+              <span className="gold-dot" /> WHAT WE EXPLORE
+            </div>
+            <h2>Ideas into <em>possibility.</em></h2>
+          </div>
+          <p>
+            A considered approach to data, technology and the digital
+            experiences people interact with every day.
+          </p>
+        </div>
+
+        <div className="service-grid">
+          {services.map((service) => (
+            <article
+  className="service-card"
+  key={service.number}
+  role="link"
+  tabIndex={0}
+  style={{ cursor: "pointer" }}
+  onClick={() => {
+    const path =
+      service.title === "Data & Analytics" ? "/services/data-analytics/" :
+      service.title === "Artificial Intelligence" ? "/services/artificial-intelligence/" :
+      service.title === "Digital Experiences" ? "/services/digital-experiences/" :
+      null;
+    if (path) window.location.href = path;
+  }}
+  onKeyDown={(event) => {
+    if (event.key === "Enter") {
+      const path =
+        service.title === "Data & Analytics" ? "/services/data-analytics/" :
+        service.title === "Artificial Intelligence" ? "/services/artificial-intelligence/" :
+        service.title === "Digital Experiences" ? "/services/digital-experiences/" :
+        null;
+      if (path) window.location.href = path;
+    }
+  }}
+>
+              <div className="card-topline">
+                <span>{service.number}</span>
+                <span className="card-arrow">↗</span>
+              </div>
+              <div className="service-symbol" aria-hidden="true">
+                {service.number === "01" ? "◉" : service.number === "02" ? "✳" : "⌘"}
+              </div>
+              <p className="card-tag">{service.tag}</p>
+              <h3>{service.title}</h3>
+              <p className="card-description">{service.text}</p>
+              <a href={service.title === "Data & Analytics" ? "/services/data-analytics/" : service.title === "Artificial Intelligence" ? "/services/artificial-intelligence/" : service.title === "Digital Experiences" ? "/services/digital-experiences/" : "#contact"} className="card-link">
+                Explore possibilities <span>↗</span>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="approach section-pad" id="work">
+        <div className="approach-visual">
+          <div className="approach-orbit orbit-one" />
+          <div className="approach-orbit orbit-two" />
+          <div className="approach-core">
+            <OrbitMark />
+            <span>DATA ORBIT</span>
+            <small>THINK DIFFERENTLY</small>
+          </div>
+          <span className="visual-label visual-label-one">DATA</span>
+          <span className="visual-label visual-label-two">IDEAS</span>
+          <span className="visual-label visual-label-three">IMPACT</span>
+        </div>
+
+        <div className="approach-copy">
+          <div className="section-kicker">
+            <span className="gold-dot" /> THE WAY WE THINK
+          </div>
+          <h2>
+            Curious minds.
+            <br />
+            <em>Considered solutions.</em>
+          </h2>
+          <p>
+            Great digital work starts with the right questions. We focus
+            on understanding the challenge, finding a thoughtful direction
+            and building toward a useful outcome.
+          </p>
+          <div className="approach-list">
+            <div><span>01</span><p><strong>Understand</strong> — Start with the real challenge.</p></div>
+            <div><span>02</span><p><strong>Explore</strong> — Find the right direction.</p></div>
+            <div><span>03</span><p><strong>Create</strong> — Turn ideas into experiences.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="work-section section-pad">
+        <div className="section-heading">
+          <div>
+            <div className="section-kicker">
+              <span className="gold-dot" /> AREAS OF POSSIBILITY
+            </div>
+            <h2>Built around <em>real needs.</em></h2>
+          </div>
+          <p>
+            Illustrative areas where data, machine learning and digital
+            design can create value.
+          </p>
+        </div>
+
+        <div className="orbit-concept-grid">
+          {projects.map((project) => (
+            <article className="orbit-concept-card" key={project.number}>
+              <div className="orbit-concept-top">
+                <span className="orbit-concept-number">{project.number}</span>
+                <span className="orbit-concept-icon" aria-hidden="true">
+                  {project.number === "01" ? "↗" : project.number === "02" ? "✳" : "◈"}
+                </span>
+              </div>
+
+              <p className="orbit-concept-eyebrow">
+                {project.category}
+              </p>
+
+              <h3 className="orbit-concept-title">
+                {project.title}
+              </h3>
+
+              <p className="orbit-concept-description">
+                {project.text}
+              </p>
+
+              <div className="orbit-concept-footer">
+                DATA ORBIT / CONCEPT
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className="portfolio-note">
+          These are concept areas, not claims of completed client projects.
+        </p>
+      </section>
+
+      <section className="contact-section" id="contact">
+        <div className="contact-inner">
+          <p className="section-kicker">
+            <span className="gold-dot" /> YOUR NEXT CHAPTER
+          </p>
+          <h2>
+            The future doesn't
+            <br />
+            build <em>itself.</em>
+          </h2>
+          <p>
+            Have an idea, a challenge or a possibility worth exploring?
+            Let's start with a conversation.
+          </p>
+          <a className="button button-gold" href="mailto:">
+            START A CONVERSATION <span>↗</span>
+          </a>
+          <small className="contact-note">
+            Add your business email to the contact button before publishing.
+          </small>
+        </div>
+        <div className="contact-decoration" aria-hidden="true">
+          <OrbitMark />
+        </div>
+      </section>
+
+      <footer className="site-footer">
+        <a className="brand footer-brand" href="#home">
+          <OrbitMark />
+          <span className="brand-copy">
+            <strong>DATA ORBIT</strong>
+            <small>TECHNOLOGIES</small>
+          </span>
+        </a>
+        <p>Thoughtful technology. Meaningful possibilities.</p>
+        <a href="#home" className="back-top">BACK TO TOP ↑</a>
+        <span className="copyright">
+          © {new Date().getFullYear()} DATA ORBIT TECHNOLOGIES
+        </span>
+      </footer>
+    
+      <CompanyDetails />
+    </main>
+  );
+}
+
+
+
+
+
+
+

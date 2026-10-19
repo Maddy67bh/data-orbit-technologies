@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10291f">
+<meta name="description" content="Data analytics, Power BI dashboards, reporting and business intelligence services from Data Orbit Technologies.">
+<title>Data & Analytics | Data Orbit Technologies</title>
+<style>
+:root{--bg:#f6f4ec;--ink:#192c23;--green:#163d2d;--gold:#bd9b5d;--muted:#657168;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Arial,sans-serif;line-height:1.65}
+a{color:inherit}
+.wrap{width:min(1120px,90%);margin:auto}
+nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+.brand{font-size:13px;letter-spacing:2px;font-weight:800;text-decoration:none}
+.brand span{display:block;font-size:10px;color:var(--muted);letter-spacing:3px}
+.navlink{font-size:13px;text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:4px}
+.hero{background:var(--green);color:#fff;padding:74px 0 86px;overflow:hidden}
+.kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#dfc28c}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+h1{font-family:Georgia,serif;font-size:clamp(42px,6vw,76px);line-height:1.04;letter-spacing:-2px;font-weight:400;margin:20px 0}
+h1 em{color:#d8bb82;font-weight:400}
+.lead{max-width:570px;color:#e0e8e0;font-size:17px}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-block;padding:13px 19px;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.5px;border:1px solid #d7bd89}
+.btn.gold{background:#d7bd89;color:#192c23}
+.btn.light{color:#fff}
+.visual{min-height:350px;border:1px solid #688071;border-radius:18px;padding:20px;background:linear-gradient(145deg,#234b39,#10251c);box-shadow:0 25px 70px #07150e55}
+.visual img{width:100%;height:170px;object-fit:cover;border-radius:10px;opacity:.86}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}
+.metric{background:#ffffff0e;border:1px solid #ffffff19;padding:13px 9px;border-radius:8px}
+.metric strong{display:block;color:#e2c58d;font-size:20px}
+.metric span{font-size:10px;color:#dce5dc}
+.bar-title{font-size:11px;color:#e7eadf;margin:14px 0 8px}
+.bars{height:65px;display:flex;align-items:end;gap:8px}
+.bars i{flex:1;background:linear-gradient(#dfc18b,#8ca58a);border-radius:4px 4px 0 0}
+section.content{padding:75px 0}
+.eyebrow{color:#8d713e;text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:700}
+h2{font:400 clamp(31px,4vw,47px)/1.15 Georgia,serif;margin:12px 0 18px}
+.intro{max-width:740px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:32px}
+.card{padding:24px;background:#fff;border:1px solid #e7e3d8;border-radius:12px}
+.card .num{color:#a1844e;font-size:12px;letter-spacing:2px}
+.card h3{font-size:17px;margin:13px 0 8px}
+.card p,.card li{color:var(--muted);font-size:13px}
+.card ul{padding-left:18px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:center}
+.photo{width:100%;height:360px;object-fit:cover;border-radius:14px}
+.steps{display:grid;gap:17px;margin-top:24px}
+.step{display:grid;grid-template-columns:42px 1fr;gap:12px}
+.step b{color:#a1844e}
+.step h3{font-size:15px;margin:0}
+.step p{font-size:13px;color:var(--muted);margin:4px 0}
+.cta{background:#e9e5d9;border-radius:16px;padding:38px;margin-top:25px;display:flex;justify-content:space-between;align-items:center;gap:25px}
+.cta p{color:var(--muted);max-width:600px}
+footer{padding:27px 0;border-top:1px solid #ddd8ca;font-size:12px;color:var(--muted)}
+@media(max-width:760px){.hero-grid,.split{grid-template-columns:1fr}.hero{padding:48px 0}.visual{min-height:0}.grid{grid-template-columns:1fr}.cta{align-items:flex-start;flex-direction:column}.photo{height:260px}section.content{padding:52px 0}}
+</style>
+</head>
+<body>
+<header class="wrap">
+<nav>
+<a class="brand" href="/">DATA ORBIT<span>TECHNOLOGIES</span></a>
+<a class="navlink" href="/#services">← All services</a>
+</nav>
+</header>
+
+<main>
+<div class="hero">
+<div class="wrap hero-grid">
+<div>
+<div class="kicker">01 / Data & Analytics</div>
+<h1>Turn data into <em>direction.</em></h1>
+<p class="lead">Transform complex information into clear insights that help your team understand performance, discover patterns and make more informed business decisions.</p>
+<div class="actions">
+<a class="btn gold" href="/#contact">DISCUSS YOUR PROJECT ↗</a>
+<a class="btn light" href="#capabilities">EXPLORE CAPABILITIES ↓</a>
+</div>
+</div>
+<div class="visual" aria-label="Illustrative analytics dashboard">
+<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85" alt="Data charts and analytics displayed on a screen">
+<div class="bar-title">ILLUSTRATIVE PERFORMANCE OVERVIEW</div>
+<div class="bars"><i style="height:35%"></i><i style="height:53%"></i><i style="height:42%"></i><i style="height:76%"></i><i style="height:60%"></i><i style="height:92%"></i><i style="height:72%"></i><i style="height:100%"></i></div>
+<div class="metrics">
+<div class="metric"><strong>01</strong><span>Understand data</span></div>
+<div class="metric"><strong>02</strong><span>Find patterns</span></div>
+<div class="metric"><strong>03</strong><span>Act on insights</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<section class="content wrap" id="capabilities">
+<div class="eyebrow">What we can help with</div>
+<h2>From scattered data to a clearer picture.</h2>
+<p class="intro">We can help shape your reporting workflow around your business questions. Scope, tools and deliverables are agreed with you before work begins.</p>
+<div class="grid">
+<article class="card"><div class="num">01 / VISUALISE</div><h3>Power BI Dashboards</h3><p>Interactive dashboards that make key performance indicators easier to explore.</p><ul><li>KPI and management views</li><li>Filters and drill-downs</li><li>Readable charts and layouts</li></ul></article>
+<article class="card"><div class="num">02 / ANALYSE</div><h3>Data Analysis</h3><p>Explore datasets to understand trends, gaps and possible opportunities.</p><ul><li>Data cleaning and validation</li><li>Exploratory analysis</li><li>Excel, SQL and Python workflows</li></ul></article>
+<article class="card"><div class="num">03 / REPORT</div><h3>Business Reporting</h3><p>Turn recurring reports into a more consistent and useful decision-making process.</p><ul><li>Report structure and metrics</li><li>Trend summaries</li><li>Action-oriented findings</li></ul></article>
+</div>
+</section>
+
+<section class="content">
+<div class="wrap split">
+<div>
+<div class="eyebrow">How we approach your project</div>
+<h2>Thoughtful work. Clear deliverables.</h2>
+<p class="intro">The process starts with your goals and the data you have available. The final scope depends on your requirements, data quality and chosen tools.</p>
+<div class="steps">
+<div class="step"><b>01</b><div><h3>Understand the business question</h3><p>Define the audience, goals, metrics and decisions the analysis should support.</p></div></div>
+<div class="step"><b>02</b><div><h3>Prepare and explore the data</h3><p>Review available sources, check data quality and identify useful patterns.</p></div></div>
+<div class="step"><b>03</b><div><h3>Build the reporting experience</h3><p>Develop agreed dashboards, visualisations or analysis outputs.</p></div></div>
+<div class="step"><b>04</b><div><h3>Review and hand over</h3><p>Walk through the results, explain key findings and share agreed files and documentation.</p></div></div>
+</div>
+</div>
+<img class="photo" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=85" alt="Analytics charts and business performance reporting">
+</div>
+</section>
+
+<section class="content wrap">
+<div class="eyebrow">Potential deliverables</div>
+<h2>What you may receive</h2>
+<div class="grid">
+<article class="card"><h3>Dashboard</h3><p>An agreed Power BI dashboard or visual report designed around your KPIs.</p></article>
+<article class="card"><h3>Prepared dataset</h3><p>A cleaned and structured dataset, where included in the project scope.</p></article>
+<article class="card"><h3>Insights summary</h3><p>A concise explanation of patterns, limitations and recommended next steps.</p></article>
+</div>
+<div class="cta">
+<div><h2>Have a data challenge?</h2><p>Tell us what you want to understand, which data you have and what decisions you need to make. We'll use that information to discuss a suitable scope.</p></div>
+<a class="btn gold" href="/#contact">REQUEST THIS SERVICE ↗</a>
+</div>
+</section>
+</main>
+
+<footer><div class="wrap" style="display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap"><span>© <span id="year"></span> DATA ORBIT TECHNOLOGIES</span><a href="/">Back to homepage ↑</a></div></footer>
+<script>document.getElementById("year").textContent=new Date().getFullYear();</script>
+</body>
+</html>

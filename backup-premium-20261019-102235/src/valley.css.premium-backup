@@ -1,0 +1,76 @@
+.sakura-valley {
+  position: relative;
+  width: 100%;
+  min-height: 620px;
+  height: min(780px, 88vh);
+  overflow: hidden;
+  isolation: isolate;
+  background: #102b30;
+  color: #fff8ed;
+  font-family: inherit;
+}
+.valley-canvas, .valley-canvas canvas, .valley-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.valley-canvas canvas { display: block; }
+.valley-shade {
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(5,18,20,.76), rgba(5,18,20,.25) 50%, transparent 82%),
+              linear-gradient(0deg, rgba(5,18,20,.34), transparent 40%);
+}
+.valley-copy {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: clamp(24px, 8vw, 120px);
+  transform: translateY(-50%);
+  max-width: 480px;
+  pointer-events: none;
+}
+.valley-eyebrow, .valley-caption {
+  display: block;
+  font-size: 10px;
+  letter-spacing: .24em;
+  font-weight: 600;
+  color: #d9c4a4;
+}
+.valley-copy h2 {
+  margin: 24px 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(44px, 6vw, 82px);
+  font-weight: 400;
+  letter-spacing: -.055em;
+  line-height: .99;
+}
+.valley-copy h2 em { color: #edc0c3; font-weight: 400; }
+.valley-copy p {
+  max-width: 330px;
+  color: rgba(255,248,237,.82);
+  font-size: 15px;
+  line-height: 1.8;
+}
+.valley-toggle {
+  pointer-events: auto;
+  cursor: pointer;
+  margin-top: 20px;
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 999px;
+  padding: 13px 20px;
+  background: rgba(12,37,36,.55);
+  backdrop-filter: blur(12px);
+  color: #fff8ed;
+  font-size: 12px;
+  letter-spacing: .04em;
+  transition: background .25s ease, transform .25s ease;
+}
+.valley-toggle:hover { background: rgba(70,105,82,.8); transform: translateY(-2px); }
+.valley-caption { margin-top: 44px; font-size: 9px; opacity: .75; }
+@media (max-width: 640px) {
+  .sakura-valley { min-height: 600px; height: 78vh; }
+  .valley-shade { background: linear-gradient(90deg, rgba(5,18,20,.7), rgba(5,18,20,.15)), linear-gradient(0deg, rgba(5,18,20,.35), transparent 60%); }
+  .valley-copy { left: 24px; right: 24px; }
+  .valley-copy h2 { font-size: clamp(44px, 13vw, 68px); }
+}
