@@ -234,6 +234,14 @@ app.patch("/api/admin/conversations/:id/status", requireAdmin, async (req, res) 
   res.json({ ok: true });
 });
 
+app.use(express.static(path.join(process.cwd(), "dist")));
+
+app.get(/.*/, (req, res) => {
+  if (req.path.startsWith("/api/")) {
+    return res.status(404).json({ error: "Not found" });
+  }
+  res.sendFile(path.join(process.cwd(), "dist", "index.html"));
+});
 app.listen(PORT, () => {
   console.log(`Data Orbit AI backend running at http://localhost:${PORT}`);
 });
