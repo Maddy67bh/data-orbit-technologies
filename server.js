@@ -9,7 +9,7 @@ const app = express();
 app.disable("x-powered-by");
 app.use(express.json({ limit: "30kb" }));
 
-const PORT = Number(process.env.AI_PORT || 8787);
+const PORT = Number(process.env.PORT || process.env.AI_PORT || 8787);
 const DATA_DIR = path.join(process.cwd(), "data");
 const DB_FILE = path.join(DATA_DIR, "conversations.json");
 const sessions = new Map();
